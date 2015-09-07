@@ -8,13 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		1B21EC381B8F530D000A0EC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC371B8F530D000A0EC2 /* AppDelegate.swift */; };
-		1B21EC3A1B8F530D000A0EC2 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC391B8F530D000A0EC2 /* GameViewController.swift */; };
-		1B21EC3C1B8F530D000A0EC2 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC3B1B8F530D000A0EC2 /* Shaders.metal */; };
 		1B21EC3F1B8F530D000A0EC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B21EC3D1B8F530D000A0EC2 /* Main.storyboard */; };
 		1B21EC411B8F530D000A0EC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B21EC401B8F530D000A0EC2 /* Assets.xcassets */; };
 		1B21EC441B8F530D000A0EC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B21EC421B8F530D000A0EC2 /* LaunchScreen.storyboard */; };
 		1B21EC4F1B8F530D000A0EC2 /* KEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC4E1B8F530D000A0EC2 /* KEngineTests.swift */; };
 		1B21EC5A1B8F530D000A0EC2 /* KEngineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC591B8F530D000A0EC2 /* KEngineUITests.swift */; };
+		1B21EC691B8F53F4000A0EC2 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC681B8F53F4000A0EC2 /* GameScene.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21EC6B1B8F554F000A0EC2 /* GameUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC6A1B8F554F000A0EC2 /* GameUtility.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21EC6E1B8F5809000A0EC2 /* Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC6D1B8F5809000A0EC2 /* Descriptor.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21EC701B8F5CE3000A0EC2 /* GameActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC6F1B8F5CE3000A0EC2 /* GameActor.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21EC731B8F5E71000A0EC2 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC721B8F5E71000A0EC2 /* Math.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21EC751B8F7356000A0EC2 /* sephere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC741B8F7356000A0EC2 /* sephere.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21EC771B8F7493000A0EC2 /* GameActorAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC761B8F7493000A0EC2 /* GameActorAsset.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21EC7E1B91CAF6000A0EC2 /* RenderToScreenShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC7D1B91CAF6000A0EC2 /* RenderToScreenShader.metal */; settings = {ASSET_TAGS = (); }; };
+		1B21EC801B91D686000A0EC2 /* GameCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC7F1B91D686000A0EC2 /* GameCamera.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21EC831B92D4C7000A0EC2 /* GameUniformBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC821B92D4C7000A0EC2 /* GameUniformBuffer.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21ECA91B9837B2000A0EC2 /* GameDefferedRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21ECA81B9837B2000A0EC2 /* GameDefferedRender.swift */; settings = {ASSET_TAGS = (); }; };
+		1B21ECAD1B99ADFD000A0EC2 /* RenderToGbuffer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B21ECAC1B99ADFD000A0EC2 /* RenderToGbuffer.metal */; settings = {ASSET_TAGS = (); }; };
+		1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */; settings = {ASSET_TAGS = (); }; };
+		1BF9D6571B9D8B2F0096A2E5 /* GameLightArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF9D6561B9D8B2F0096A2E5 /* GameLightArray.swift */; settings = {ASSET_TAGS = (); }; };
+		1BFD7AB91B9D718800759DF6 /* GameLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFD7AB81B9D718800759DF6 /* GameLight.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +50,6 @@
 /* Begin PBXFileReference section */
 		1B21EC341B8F530D000A0EC2 /* KEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B21EC371B8F530D000A0EC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1B21EC391B8F530D000A0EC2 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		1B21EC3B1B8F530D000A0EC2 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		1B21EC3E1B8F530D000A0EC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1B21EC401B8F530D000A0EC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B21EC431B8F530D000A0EC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +60,22 @@
 		1B21EC551B8F530D000A0EC2 /* KEngineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KEngineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B21EC591B8F530D000A0EC2 /* KEngineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KEngineUITests.swift; sourceTree = "<group>"; };
 		1B21EC5B1B8F530D000A0EC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B21EC681B8F53F4000A0EC2 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		1B21EC6A1B8F554F000A0EC2 /* GameUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtility.swift; sourceTree = "<group>"; };
+		1B21EC6D1B8F5809000A0EC2 /* Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Descriptor.swift; sourceTree = "<group>"; };
+		1B21EC6F1B8F5CE3000A0EC2 /* GameActor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameActor.swift; sourceTree = "<group>"; };
+		1B21EC721B8F5E71000A0EC2 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		1B21EC741B8F7356000A0EC2 /* sephere.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sephere.swift; sourceTree = "<group>"; };
+		1B21EC761B8F7493000A0EC2 /* GameActorAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameActorAsset.swift; sourceTree = "<group>"; };
+		1B21EC7D1B91CAF6000A0EC2 /* RenderToScreenShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderToScreenShader.metal; sourceTree = "<group>"; };
+		1B21EC7F1B91D686000A0EC2 /* GameCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCamera.swift; sourceTree = "<group>"; };
+		1B21EC821B92D4C7000A0EC2 /* GameUniformBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUniformBuffer.swift; sourceTree = "<group>"; };
+		1B21ECA81B9837B2000A0EC2 /* GameDefferedRender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDefferedRender.swift; sourceTree = "<group>"; };
+		1B21ECAC1B99ADFD000A0EC2 /* RenderToGbuffer.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderToGbuffer.metal; sourceTree = "<group>"; };
+		1B21ECAF1B99AE50000A0EC2 /* shaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shaderTypes.h; sourceTree = "<group>"; };
+		1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DefferredShadingComposition.metal; sourceTree = "<group>"; };
+		1BF9D6561B9D8B2F0096A2E5 /* GameLightArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLightArray.swift; sourceTree = "<group>"; };
+		1BFD7AB81B9D718800759DF6 /* GameLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLight.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,8 +127,10 @@
 			isa = PBXGroup;
 			children = (
 				1B21EC371B8F530D000A0EC2 /* AppDelegate.swift */,
-				1B21EC391B8F530D000A0EC2 /* GameViewController.swift */,
-				1B21EC3B1B8F530D000A0EC2 /* Shaders.metal */,
+				1B21EC7C1B903464000A0EC2 /* GameRender */,
+				1B21EC711B8F5CE7000A0EC2 /* GameActor */,
+				1B21EC671B8F53DC000A0EC2 /* GameScene */,
+				1B21EC721B8F5E71000A0EC2 /* Math.swift */,
 				1B21EC3D1B8F530D000A0EC2 /* Main.storyboard */,
 				1B21EC401B8F530D000A0EC2 /* Assets.xcassets */,
 				1B21EC421B8F530D000A0EC2 /* LaunchScreen.storyboard */,
@@ -126,6 +155,74 @@
 				1B21EC5B1B8F530D000A0EC2 /* Info.plist */,
 			);
 			path = KEngineUITests;
+			sourceTree = "<group>";
+		};
+		1B21EC671B8F53DC000A0EC2 /* GameScene */ = {
+			isa = PBXGroup;
+			children = (
+				1B21EC681B8F53F4000A0EC2 /* GameScene.swift */,
+				1B21EC6C1B8F57DE000A0EC2 /* Utility */,
+			);
+			name = GameScene;
+			sourceTree = "<group>";
+		};
+		1B21EC6C1B8F57DE000A0EC2 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				1B21EC6A1B8F554F000A0EC2 /* GameUtility.swift */,
+				1B21EC821B92D4C7000A0EC2 /* GameUniformBuffer.swift */,
+				1BF9D6551B9D8B030096A2E5 /* GameLight */,
+				1B21EC811B91D68A000A0EC2 /* GameCamera */,
+				1B21EC6D1B8F5809000A0EC2 /* Descriptor.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		1B21EC711B8F5CE7000A0EC2 /* GameActor */ = {
+			isa = PBXGroup;
+			children = (
+				1B21EC6F1B8F5CE3000A0EC2 /* GameActor.swift */,
+				1B21EC761B8F7493000A0EC2 /* GameActorAsset.swift */,
+				1B21EC741B8F7356000A0EC2 /* sephere.swift */,
+			);
+			name = GameActor;
+			sourceTree = "<group>";
+		};
+		1B21EC7C1B903464000A0EC2 /* GameRender */ = {
+			isa = PBXGroup;
+			children = (
+				1B21ECAE1B99AE1D000A0EC2 /* Shader */,
+				1B21ECA81B9837B2000A0EC2 /* GameDefferedRender.swift */,
+			);
+			name = GameRender;
+			sourceTree = "<group>";
+		};
+		1B21EC811B91D68A000A0EC2 /* GameCamera */ = {
+			isa = PBXGroup;
+			children = (
+				1B21EC7F1B91D686000A0EC2 /* GameCamera.swift */,
+			);
+			name = GameCamera;
+			sourceTree = "<group>";
+		};
+		1B21ECAE1B99AE1D000A0EC2 /* Shader */ = {
+			isa = PBXGroup;
+			children = (
+				1B21EC7D1B91CAF6000A0EC2 /* RenderToScreenShader.metal */,
+				1B21ECAF1B99AE50000A0EC2 /* shaderTypes.h */,
+				1B21ECAC1B99ADFD000A0EC2 /* RenderToGbuffer.metal */,
+				1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */,
+			);
+			name = Shader;
+			sourceTree = "<group>";
+		};
+		1BF9D6551B9D8B030096A2E5 /* GameLight */ = {
+			isa = PBXGroup;
+			children = (
+				1BFD7AB81B9D718800759DF6 /* GameLight.swift */,
+				1BF9D6561B9D8B2F0096A2E5 /* GameLightArray.swift */,
+			);
+			name = GameLight;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,9 +355,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B21EC3C1B8F530D000A0EC2 /* Shaders.metal in Sources */,
-				1B21EC3A1B8F530D000A0EC2 /* GameViewController.swift in Sources */,
+				1BF9D6571B9D8B2F0096A2E5 /* GameLightArray.swift in Sources */,
+				1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */,
+				1BFD7AB91B9D718800759DF6 /* GameLight.swift in Sources */,
+				1B21EC7E1B91CAF6000A0EC2 /* RenderToScreenShader.metal in Sources */,
+				1B21EC801B91D686000A0EC2 /* GameCamera.swift in Sources */,
+				1B21EC691B8F53F4000A0EC2 /* GameScene.swift in Sources */,
+				1B21EC6E1B8F5809000A0EC2 /* Descriptor.swift in Sources */,
+				1B21EC731B8F5E71000A0EC2 /* Math.swift in Sources */,
+				1B21ECAD1B99ADFD000A0EC2 /* RenderToGbuffer.metal in Sources */,
+				1B21EC771B8F7493000A0EC2 /* GameActorAsset.swift in Sources */,
+				1B21EC831B92D4C7000A0EC2 /* GameUniformBuffer.swift in Sources */,
+				1B21EC751B8F7356000A0EC2 /* sephere.swift in Sources */,
+				1B21EC6B1B8F554F000A0EC2 /* GameUtility.swift in Sources */,
 				1B21EC381B8F530D000A0EC2 /* AppDelegate.swift in Sources */,
+				1B21ECA91B9837B2000A0EC2 /* GameDefferedRender.swift in Sources */,
+				1B21EC701B8F5CE3000A0EC2 /* GameActor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +599,7 @@
 				1B21EC601B8F530D000A0EC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1B21EC611B8F530D000A0EC2 /* Build configuration list for PBXNativeTarget "KEngineTests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +608,7 @@
 				1B21EC631B8F530D000A0EC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1B21EC641B8F530D000A0EC2 /* Build configuration list for PBXNativeTarget "KEngineUITests" */ = {
 			isa = XCConfigurationList;
@@ -505,6 +617,7 @@
 				1B21EC661B8F530D000A0EC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
