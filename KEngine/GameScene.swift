@@ -87,7 +87,7 @@ class GameScene: UIViewController{
         actor4.translate(3, y: 0, z: 3)
         
         
-        let actor5 = GameActor(vertices: plat_vertices, indices: plat_indices, scene: self)
+        _ = GameActor(vertices: plat_vertices, indices: plat_indices, scene: self)
         
     }
     
