@@ -55,12 +55,12 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         m_secondPassDesc = scene.m_utility.m_descriptor.m_renderPassDesc
         m_library = m_scene.m_device.newDefaultLibrary()
         m_commandQueue = m_scene.m_device.newCommandQueue()
-        let light1 = GameLight(pos: [1,20,1], color: [1,1,1], shine: 10)
-        let light2 = GameLight(pos: [5,20,5], color: [0,1,1], shine: 5)
+        let light1 = GameLight(pos: [0,20,0], color: [1,1,1], shine: 10)
+        let light2 = GameLight(pos: [5,5,5], color: [1,1,1], shine: 50)
 
-        let light3 = GameLight(pos: [5,20,8], color: [0,0,1], shine: 70)
+        let light3 = GameLight(pos: [5,20,8], color: [1,0,0], shine: 70)
 
-        let light4 = GameLight(pos: [0,20,9], color: [0.7,0.2,0.1], shine: 10)
+        let light4 = GameLight(pos: [0,20,9], color: [1,1,1], shine: 10)
 
         let light5 = GameLight(pos: [10,20,0], color: [0.1,0.5,0.6], shine: 4)
         let light6 = GameLight(pos: [2,20,6], color: [0.1,0.5,0.2], shine: 15)
@@ -93,7 +93,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         renderPipelineDesc.colorAttachments[0].pixelFormat = m_scene.m_mtkView.colorPixelFormat
         renderPipelineDesc.colorAttachments[1].pixelFormat = MTLPixelFormat.RGBA16Float
         //m_scene.m_mtkView.colorPixelFormat
-        renderPipelineDesc.colorAttachments[2].pixelFormat = MTLPixelFormat.RGBA32Float
+        //renderPipelineDesc.colorAttachments[2].pixelFormat = MTLPixelFormat.RGBA16Float
         //m_scene.m_mtkView.colorPixelFormat
         //renderPipelineDesc.colorAttachments[3].pixelFormat = m_scene.m_mtkView.colorPixelFormat
 
@@ -178,13 +178,13 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
             m_colorattachmentDesc.clearColor = MTLClearColorMake(0, 0, 0, 1)
             m_secondPassDesc.colorAttachments[1] = m_colorattachmentDesc
             
-            textureDesc.pixelFormat = MTLPixelFormat.RGBA32Float
+            /*textureDesc.pixelFormat = MTLPixelFormat.RGBA16Float
             
             m_colorattachmentDesc.texture = m_scene.m_device.newTextureWithDescriptor(textureDesc)
             m_colorattachmentDesc.loadAction = MTLLoadAction.Clear
             m_colorattachmentDesc.storeAction = MTLStoreAction.DontCare
             m_colorattachmentDesc.clearColor = MTLClearColorMake(0, 0, 0, 1)
-            m_secondPassDesc.colorAttachments[2] = m_colorattachmentDesc
+            m_secondPassDesc.colorAttachments[2] = m_colorattachmentDesc*/
             
             
             
@@ -227,8 +227,10 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     
     
     func drawInMTKView(view: MTKView) {
-        m_scene.m_actor[0].rotate(0.02, axis: [0,1,0])
+        m_scene.m_actor[0].rotate(0.02, axis: [0,0,1])
         m_scene.m_actor[1].rotate(-0.02, axis: [0,1,0])
+        m_scene.m_actor[2].rotate(0.02, axis: [0,0,1])
+        m_scene.m_actor[3].rotate(-0.02, axis: [0,0,1])
         
         let commandBuffer = m_commandQueue.commandBuffer()
         let encoder = commandBuffer.renderCommandEncoderWithDescriptor(setupSecondPassRenderPassDesc(view.currentDrawable!.texture))
@@ -244,6 +246,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         //2/composition Render
         encoder.label = "Composition"
         encoder.setFragmentBuffer(m_light.m_lightsBuffer.buffer(), offset: 0, atIndex: 0)
+        encoder.setFragmentBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 1)
         //encoder.setVertexBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 3)
         //encoder.setFragmentBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 3)
         renderToScreen(encoder)

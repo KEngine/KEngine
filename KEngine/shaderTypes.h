@@ -36,9 +36,9 @@ struct DeferredInOut{
 
 
 struct GBufferOut{
-    float4 color [[color(0)]];
+    float4 pos [[color(0)]];
+    //float4 color [[color(0)]];
     float4 normal [[color(1)]];
-    float4 pos [[color(2)]];
 };
 
 

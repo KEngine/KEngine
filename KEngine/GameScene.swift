@@ -74,17 +74,17 @@ class GameScene: UIViewController{
     func loadActor(){
         m_actor = [GameActor]()
 
-        let actor1 = GameActor(vertices: sephere_vertices, indices: sephere_indices, scene: self)
+        let actor1 = GameActor(vertices: ball_vertices, indices: ball_indices, scene: self)
         actor1.translate(1, y: 0, z: 1)
         
         let actor2 = GameActor(vertices: sephere_vertices, indices: sephere_indices, scene: self)
         actor2.translate(-1, y: 1, z: 1)
         
         let actor3 = GameActor(vertices: sephere_vertices, indices: sephere_indices, scene: self)
-        actor3.translate(3, y: 1, z: 3)
+        actor3.translate(-3, y: 1, z: -3)
         
         let actor4 = GameActor(vertices: sephere_vertices, indices: sephere_indices, scene: self)
-        actor4.translate(3, y: 0, z: 3)
+        actor4.translate(-3, y: 0, z: -3)
         
         
         _ = GameActor(vertices: plat_vertices, indices: plat_indices, scene: self)
