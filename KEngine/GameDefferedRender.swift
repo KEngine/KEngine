@@ -28,6 +28,8 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     //lights
     
     var m_light:GameLightArrary! = nil
+    var m_currentIndex:Int = 0
+    var m_inflightSemaphore = dispatch_semaphore_create(3)
     
     
     
@@ -55,18 +57,28 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         m_secondPassDesc = scene.m_utility.m_descriptor.m_renderPassDesc
         m_library = m_scene.m_device.newDefaultLibrary()
         m_commandQueue = m_scene.m_device.newCommandQueue()
-        let light1 = GameLight(pos: [0,20,0], color: [1,1,1], shine: 10)
-        let light2 = GameLight(pos: [5,5,5], color: [1,1,1], shine: 50)
+        let light1 = GameLight(pos: [50,50,50], color: [1,1,1], shine: 50)
+        let light2 = GameLight(pos: [-3,3,3], color: [0,1,0], shine: 1)
 
-        let light3 = GameLight(pos: [5,20,8], color: [1,0,0], shine: 70)
+        let light3 = GameLight(pos: [3,3,-3], color: [0,0,1], shine: 1)
 
-        let light4 = GameLight(pos: [0,20,9], color: [1,1,1], shine: 10)
+        let light4 = GameLight(pos: [3,3,3], color: [1,0.2,0.1], shine: 1)
 
-        let light5 = GameLight(pos: [10,20,0], color: [0.1,0.5,0.6], shine: 4)
-        let light6 = GameLight(pos: [2,20,6], color: [0.1,0.5,0.2], shine: 15)
+        let light5 = GameLight(pos: [-3,3,-3], color: [0.1,0.5,0.6], shine: 1)
+        let light6 = GameLight(pos: [2,2,1], color: [1,0.5,0.2], shine: 1)
         
+        let light7 = GameLight(pos: [7,4,0], color: [0.1,0.5,0.4], shine: 18)
+
+        let light8 = GameLight(pos: [-1,2,0], color: [0.1,0.5,0.6], shine: 24)
+
+        let light9 = GameLight(pos: [0,6,0], color: [0.8,0.5,0.5], shine: 14)
+
+        let light10 = GameLight(pos: [1,1.5,0], color: [0.1,0.5,0.2], shine: 19)
+
+        let ligh11 = GameLight(pos: [3,3.5,2], color: [0.3,0.5,0.6], shine: 34)
+
         
-        m_light = GameLightArrary(lights: [light1,light2,light3,light4,light5,light6], scene: m_scene)
+        m_light = GameLightArrary(lights: [light1,light2,light3,light4,light5,light6,ligh11,light10,light7,light8,light9], scene: m_scene)
 
 
         m_size = CGSize(width: 0, height: 0)
@@ -100,7 +112,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         
         
         renderPipelineDesc.depthAttachmentPixelFormat = m_scene.m_mtkView.depthStencilPixelFormat
-        renderPipelineDesc.stencilAttachmentPixelFormat = m_scene.m_mtkView.depthStencilPixelFormat
+        //renderPipelineDesc.stencilAttachmentPixelFormat = m_scene.m_mtkView.depthStencilPixelFormat
         
         do{
             m_geometryPipelineState = try m_scene.m_device.newRenderPipelineStateWithDescriptor(renderPipelineDesc)
@@ -145,7 +157,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         m_colorattachmentDesc.texture = texture
         m_colorattachmentDesc.loadAction = MTLLoadAction.Clear
         m_colorattachmentDesc.storeAction = MTLStoreAction.Store
-        m_colorattachmentDesc.clearColor = MTLClearColorMake(0, 0, 0, 1)
+        m_colorattachmentDesc.clearColor = MTLClearColorMake(1, 1, 1, 1)
         m_secondPassDesc.colorAttachments[0] = m_colorattachmentDesc
         
         
@@ -175,7 +187,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
             m_colorattachmentDesc.texture = m_scene.m_device.newTextureWithDescriptor(textureDesc)
             m_colorattachmentDesc.loadAction = MTLLoadAction.Clear
             m_colorattachmentDesc.storeAction = MTLStoreAction.DontCare
-            m_colorattachmentDesc.clearColor = MTLClearColorMake(0, 0, 0, 1)
+            m_colorattachmentDesc.clearColor = MTLClearColorMake(1, 1, 1, 1)
             m_secondPassDesc.colorAttachments[1] = m_colorattachmentDesc
             
             /*textureDesc.pixelFormat = MTLPixelFormat.RGBA16Float
@@ -189,7 +201,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
             
             
             
-            textureDesc.pixelFormat = MTLPixelFormat.Depth32Float_Stencil8
+            textureDesc.pixelFormat = MTLPixelFormat.Depth32Float
             
             let deptAttachmentDesc = m_scene.m_utility.m_descriptor.m_deptAttachmentDesc
             deptAttachmentDesc.texture = m_scene.m_device.newTextureWithDescriptor(textureDesc)
@@ -198,14 +210,14 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
             deptAttachmentDesc.clearDepth = 1
             
             
-            let stencilAttachmentDesc = m_scene.m_utility.m_descriptor.m_stencilAttachmentDesc
+            /*let stencilAttachmentDesc = m_scene.m_utility.m_descriptor.m_stencilAttachmentDesc
             stencilAttachmentDesc.texture = deptAttachmentDesc.texture!
             stencilAttachmentDesc.loadAction = MTLLoadAction.Clear
             stencilAttachmentDesc.storeAction = MTLStoreAction.Store
-            stencilAttachmentDesc.clearStencil = 0
+            stencilAttachmentDesc.clearStencil = 1*/
             
             m_secondPassDesc.depthAttachment = deptAttachmentDesc
-            m_secondPassDesc.stencilAttachment = stencilAttachmentDesc
+            //m_secondPassDesc.stencilAttachment = stencilAttachmentDesc
             
             m_sizeChanged = false
         }
@@ -227,12 +239,18 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     
     
     func drawInMTKView(view: MTKView) {
+        dispatch_semaphore_wait(m_inflightSemaphore, DISPATCH_TIME_FOREVER)
+        let commandBuffer = m_commandQueue.commandBuffer()
+        
+        
+        
+        
         m_scene.m_actor[0].rotate(0.02, axis: [0,0,1])
         m_scene.m_actor[1].rotate(-0.02, axis: [0,1,0])
         m_scene.m_actor[2].rotate(0.02, axis: [0,0,1])
         m_scene.m_actor[3].rotate(-0.02, axis: [0,0,1])
         
-        let commandBuffer = m_commandQueue.commandBuffer()
+        
         let encoder = commandBuffer.renderCommandEncoderWithDescriptor(setupSecondPassRenderPassDesc(view.currentDrawable!.texture))
         //1.Gbuffer Render
         encoder.label = "G-buffer"
@@ -249,18 +267,43 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 1)
         //encoder.setVertexBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 3)
         //encoder.setFragmentBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 3)
+        setupCompostionActions()
         renderToScreen(encoder)
-        
-        
-        
-        
-        
-        
+
         encoder.endEncoding()
+        commandBuffer.addCompletedHandler{ [weak self] commandBuffer in
+            if let strongSelf = self {
+                dispatch_semaphore_signal(strongSelf.m_inflightSemaphore)
+            }
+            return
+        }
         commandBuffer.presentDrawable(view.currentDrawable!)
+
         commandBuffer.commit()
+        //m_currentIndex = (m_currentIndex + 1) % 3
+
 
     }
+    
+    func setupCompostionActions(){
+        m_secondPassDesc.colorAttachments[0].loadAction = MTLLoadAction.Clear
+        m_secondPassDesc.colorAttachments[0].clearColor = MTLClearColorMake(1, 1, 1, 1)
+        m_secondPassDesc.colorAttachments[0].storeAction = MTLStoreAction.Store
+        
+        m_secondPassDesc.colorAttachments[1].storeAction = MTLStoreAction.DontCare
+        m_secondPassDesc.colorAttachments[1].loadAction = MTLLoadAction.Clear
+        m_secondPassDesc.colorAttachments[1].clearColor = MTLClearColorMake(1,1,1,1)
+        
+        m_secondPassDesc.colorAttachments[2].storeAction = MTLStoreAction.DontCare
+        m_secondPassDesc.colorAttachments[2].loadAction = MTLLoadAction.Clear
+        m_secondPassDesc.colorAttachments[2].clearColor = MTLClearColorMake(1,1,1,1)
+        
+        m_secondPassDesc.depthAttachment.loadAction = MTLLoadAction.DontCare
+        m_secondPassDesc.depthAttachment.storeAction  = MTLStoreAction.DontCare
+        m_secondPassDesc.stencilAttachment.loadAction = MTLLoadAction.DontCare
+        m_secondPassDesc.stencilAttachment.storeAction = MTLStoreAction.DontCare
+    }
+    
     
     
     func mtkView(view: MTKView, drawableSizeWillChange size: CGSize) {

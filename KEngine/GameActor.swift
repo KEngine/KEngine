@@ -23,8 +23,10 @@ class GameActor:NSObject,GameRenderDelegate{
         super.init()
         m_scene = scene
         m_asset = GameActorAsset(vertices: vertices, indices: indices,primitiveType:MTLPrimitiveType.Triangle,device:m_scene.m_device)
-        m_scene.m_actor.append(self)
+        
         m_modelBuffer = GameUniformBuffer(data: m_modelMatrix.dumpToSwift(), scene: scene)
+
+        m_scene.m_actor.append(self)
     }
     
     func updateModel(){

@@ -29,7 +29,7 @@ class GameCamera:NSObject {
         super.init()
         m_scene = scene
         m_viewMatrix.matrixFromLookAt(pos, center: center, up: up)
-        m_projectionMatrix.MatrixMakeFrustum_oc(-1, right: 1, bottom: -Float(scene.view.frame.width / scene.view.frame.height), top: Float(scene.view.frame.width / scene.view.frame.height), near: 1, far: -1000)
+        m_projectionMatrix.MatrixMakeFrustum_oc(-1, right: 1, bottom: -Float(scene.view.frame.width / scene.view.frame.height), top: Float(scene.view.frame.width / scene.view.frame.height), near: 0, far: -1000)
         
         m_viewBuffer = GameUniformBuffer(data: m_viewMatrix.dumpToSwift(), scene: scene)
         m_projectionBuffer = GameUniformBuffer(data: m_projectionMatrix.dumpToSwift(), scene: scene)

@@ -35,6 +35,7 @@ class GameScene: UIViewController{
 
         
         // render utility actor init
+        
         m_utility = GameUtility(scene: self)
         m_render = GameDefferedRender(scene: self)
         m_mtkView.delegate = m_render
@@ -66,8 +67,8 @@ class GameScene: UIViewController{
     
     
     func setupViewPixelFormat(){
-        m_mtkView.colorPixelFormat = MTLPixelFormat.BGRA8Unorm
-        m_mtkView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8
+        m_mtkView.colorPixelFormat = MTLPixelFormat.RGBA16Float
+        m_mtkView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float
     }
     
     
@@ -75,19 +76,20 @@ class GameScene: UIViewController{
         m_actor = [GameActor]()
 
         let actor1 = GameActor(vertices: ball_vertices, indices: ball_indices, scene: self)
-        actor1.translate(1, y: 0, z: 1)
+        actor1.translate(0, y: 0, z: 0)
         
         let actor2 = GameActor(vertices: sephere_vertices, indices: sephere_indices, scene: self)
-        actor2.translate(-1, y: 1, z: 1)
+        actor2.translate(0, y: 0, z: 3)
         
         let actor3 = GameActor(vertices: sephere_vertices, indices: sephere_indices, scene: self)
-        actor3.translate(-3, y: 1, z: -3)
+        actor3.translate(-3, y: 5, z: -4)
         
         let actor4 = GameActor(vertices: sephere_vertices, indices: sephere_indices, scene: self)
-        actor4.translate(-3, y: 0, z: -3)
+        actor4.translate(-5, y: 0, z: -5)
         
         
-        _ = GameActor(vertices: plat_vertices, indices: plat_indices, scene: self)
+        let actor5 = GameActor(vertices: plat_vertices, indices: plat_indices, scene: self)
+        actor5.translate(0, y: 1, z: 0)
         
     }
     
