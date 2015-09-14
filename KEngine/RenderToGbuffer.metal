@@ -18,7 +18,7 @@ vertex GbufferInOut gbufferVertex(const device Vertex* in [[buffer(0)]],const de
     
     out.pos = camera.matrix * view.matrix * model.matrix * float4(float3(in[vid].pos),1.0);
     out.normal = view.matrix * model.matrix * float4(float3(in[vid].normal),0.0);
-    out.posWorld = view.matrix * model.matrix * float4(float3(in[vid].pos),1.0);
+    out.posWorld = model.matrix * float4(float3(in[vid].pos),1.0);
     
     return out;
 
@@ -29,7 +29,7 @@ fragment GBufferOut gbufferFragment(GbufferInOut in [[stage_in]]){
     GBufferOut out;
     out.pos = in.posWorld;
     out.normal = in.normal;
-    //out.color = float4(0.1,0.1,0.1,1.0);
+    out.color = float4(0.2,0.2,0.2,1.0);
     return out;
 }
 

@@ -87,6 +87,28 @@ extension float4x4{
         self[3][3] = 1.0
     }
     
+    
+    
+    mutating func matrixFromOrtho2d(left:Float,right:Float,bottom:Float,top:Float,near:Float,far:Float){
+        self = float4x4(0)
+        let sLenght = 1.0 / (right - left)
+        let sHeight = 1.0 / (top - bottom)
+        let sDepth = 1.0 / (far - near)
+        
+        self[0][0] = 2 * sLenght
+        
+        self[1][1] = 2 * sHeight
+        
+        self[2][2] = sDepth
+        
+        self[3][2] = -near * sDepth
+        self[3][3] = 1.0
+    }
+    
+    
+    
+    
+    
     func matrixFromScale(size:Float)->float4x4{
         var result = float4x4(1)
         result[0][0] = size
@@ -140,6 +162,11 @@ extension float4x4{
     mutating func scale(scale:Float){
         self = self * matrixFromScale(scale)
     }
+    
+    
+    
+    
+    
     
     
     

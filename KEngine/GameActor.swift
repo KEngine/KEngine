@@ -45,6 +45,19 @@ class GameActor:NSObject,GameRenderDelegate{
     }
     
     
+    func renderToShadowMap(encoder: MTLRenderCommandEncoder,pipelineState:MTLRenderPipelineState,depthState:MTLDepthStencilState) {
+        encoder.label = "shadow"
+        encoder.setDepthBias(0.005, slopeScale: 1.1, clamp: 1)
+        encoder.setVertexBuffer(m_scene.m_utility.m_camera.shadowProjecitonBuffer(), offset: 0, atIndex: 1)
+        encoder.setVertexBuffer(m_scene.m_utility.m_camera.sunViewBuffer(), offset: 0, atIndex: 3)
+        encoder.setVertexBuffer(m_asset.vertexBuffer(), offset: 0, atIndex: 0)
+        encoder.setVertexBuffer(m_modelBuffer.buffer(), offset: 0, atIndex: 2)
+        encoder.setRenderPipelineState(pipelineState)
+        encoder.setDepthStencilState(depthState)
+        encoder.drawIndexedPrimitives(m_asset.m_primitiveType, indexCount: m_asset.m_indices.count, indexType: MTLIndexType.UInt16, indexBuffer: m_asset.m_indexBuffer, indexBufferOffset: 0)
+    }
+    
+    
     
     
     
