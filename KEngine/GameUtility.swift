@@ -22,6 +22,6 @@ class GameUtility:NSObject {
         super.init()
         m_scene = scene
         m_descriptor = Descriptor()
-        m_camera = GameCamera(pos: [50,50,50], center: [0,0,0], up: [0,1,0], scene: scene)
+        m_camera = GameCamera(pos: [30,30,30], center: [0,0,0], up: [0,1,0], scene: scene)
     }
 }

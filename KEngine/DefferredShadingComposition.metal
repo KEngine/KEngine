@@ -25,7 +25,7 @@ vertex DeferredInOut CompositonVertex(const device VertexPosOnly* in [[buffer(0)
 }
 
 
-fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuffer,constant DirectionLight* lights [[buffer(0)]],constant Uniform& view [[buffer(1)]],constant Uniform& sunProjection [[buffer(2)]],constant Uniform& sunView [[buffer(3)]],depth2d<float> shadowMap [[texture(0)]]){
+fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuffer,constant DirectionLight* lights [[buffer(0)]],constant Uniform& view [[buffer(1)]],constant Uniform& sunProjection [[buffer(2)]],constant Uniform& sunView [[buffer(3)]],texture2d<float> shadowMap [[texture(0)]]){
     half4 color = half4(0,0,0,1);
     float3 vertex_cam = (view.matrix * gBuffer.pos).xyz;
     float3 normal_cam = gBuffer.normal.xyz;
@@ -40,8 +40,8 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     bais[1] = float4( 0  ,  -0.5 ,    0, 0);
     bais[2] = float4( 0  ,   0   ,    1, 0);
     bais[3] = float4(0.5 ,   0.5 ,    0, 1);
-    constexpr sampler shadow_sampler(coord::normalized, filter::linear, address::clamp_to_edge, compare_func::less);
-    float2 texelSize = float2(1 / 1024.0,1 / 1024.0);
+    //constexpr sampler shadow_sampler(coord::normalized, filter::linear, address::clamp_to_edge, compare_func::less);
+    //float2 texelSize = float2(1 / 1024.0,1 / 1024.0);
     float4 shadowcoord = bais *  sunProjection.matrix * sunView.matrix * gBuffer.pos;
     
     
@@ -58,7 +58,15 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     
     
     
-    float shadow = shadowMap.sample_compare(shadow_sampler, shadowcoord.xy/shadowcoord.w ,shadowcoord.z/shadowcoord.w);
+    //float shadow = shadowMap.sample_compare(shadow_sampler, shadowcoord.xy/shadowcoord.w ,shadowcoord.z/shadowcoord.w);
+    constexpr sampler s(coord::normalized,filter::linear,address::clamp_to_edge);
+    
+    float4 depth = shadowMap.sample(s,shadowcoord.xy/shadowcoord.w);
+    
+    
+    float shadow = step(shadowcoord.z,depth.x);
+    
+    
     float constantAttenuation = 0.5;
     float linearAttenuation = 0;
     float quadraticAttenuation = 0.05;

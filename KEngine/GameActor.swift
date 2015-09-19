@@ -19,11 +19,11 @@ class GameActor:NSObject,GameRenderDelegate{
     //var m_depthState:MTLDepthStencilState! = nil
     var m_modelBuffer:GameUniformBuffer! = nil
     var m_modelMatrix = float4x4(1)
-    init(vertices:[Float],indices:[UInt16],scene:GameScene) {
+    init(vertices:[Float],indices:[UInt16],pos:[Float],scene:GameScene) {
         super.init()
         m_scene = scene
         m_asset = GameActorAsset(vertices: vertices, indices: indices,primitiveType:MTLPrimitiveType.Triangle,device:m_scene.m_device)
-        
+        m_modelMatrix.translate(pos[0], y: pos[1], z: pos[2])
         m_modelBuffer = GameUniformBuffer(data: m_modelMatrix.dumpToSwift(), scene: scene)
 
         m_scene.m_actor.append(self)
@@ -47,9 +47,7 @@ class GameActor:NSObject,GameRenderDelegate{
     
     func renderToShadowMap(encoder: MTLRenderCommandEncoder,pipelineState:MTLRenderPipelineState,depthState:MTLDepthStencilState) {
         encoder.label = "shadow"
-        encoder.setDepthBias(0.005, slopeScale: 1.1, clamp: 1)
-        encoder.setVertexBuffer(m_scene.m_utility.m_camera.shadowProjecitonBuffer(), offset: 0, atIndex: 1)
-        encoder.setVertexBuffer(m_scene.m_utility.m_camera.sunViewBuffer(), offset: 0, atIndex: 3)
+        
         encoder.setVertexBuffer(m_asset.vertexBuffer(), offset: 0, atIndex: 0)
         encoder.setVertexBuffer(m_modelBuffer.buffer(), offset: 0, atIndex: 2)
         encoder.setRenderPipelineState(pipelineState)
@@ -58,13 +56,13 @@ class GameActor:NSObject,GameRenderDelegate{
     }
     
     
+       
+    
     
     
     
     func renderWithPipelineStates(encoder: MTLRenderCommandEncoder,pipelineState:MTLRenderPipelineState,depthState:MTLDepthStencilState) {
-        encoder.setVertexBuffer(m_scene.m_utility.m_camera.projectionBuffer(), offset: 0, atIndex: 1)
-        encoder.setVertexBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 3)
-        encoder.setVertexBuffer(m_asset.vertexBuffer(), offset: 0, atIndex: 0)
+                encoder.setVertexBuffer(m_asset.vertexBuffer(), offset: 0, atIndex: 0)
         encoder.setVertexBuffer(m_modelBuffer.buffer(), offset: 0, atIndex: 2)
         encoder.setRenderPipelineState(pipelineState)
         encoder.setDepthStencilState(depthState)

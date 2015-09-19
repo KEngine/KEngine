@@ -35,6 +35,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     
     //Shadow Pass
     var m_shadowMap:MTLTexture! = nil
+    var m_depthAttach:MTLTexture! = nil
     var m_shadowPass = MTLRenderPassDescriptor()
     var m_shadowPipelieState:MTLRenderPipelineState! = nil
     var m_shadowDepthStencilState:MTLDepthStencilState! = nil
@@ -76,34 +77,31 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         
     
     func shadowPassDesc()->MTLRenderPassDescriptor{
-        /*if m_sizeChanged == true{
-           let textureDesc = m_scene.m_utility.m_descriptor.m_textureDesc
-            textureDesc.textureType = MTLTextureType.Type2D
-            textureDesc.width = Int(m_size.width)
-            textureDesc.height = Int(m_size.height)
-            textureDesc.mipmapLevelCount = 1
-            textureDesc.pixelFormat = MTLPixelFormat.Depth32Float
-            m_shadowMap = m_scene.m_device.newTextureWithDescriptor(textureDesc)
-            m_shadowPass.colorAttachments[0] = nil
-            m_shadowPass.depthAttachment.texture = m_shadowMap
-            m_shadowPass.depthAttachment.storeAction = MTLStoreAction.Store
-            m_shadowPass.depthAttachment.loadAction = MTLLoadAction.Clear
-            m_shadowPass.depthAttachment.clearDepth = 0.0
-
-        }*/
-        
         let textureDesc = m_scene.m_utility.m_descriptor.m_textureDesc
         textureDesc.textureType = MTLTextureType.Type2D
         textureDesc.width = Int(1024)
         textureDesc.height = Int(1024)
         textureDesc.mipmapLevelCount = 1
-        textureDesc.pixelFormat = MTLPixelFormat.Depth32Float
+        textureDesc.pixelFormat = MTLPixelFormat.RG32Float
         m_shadowMap = m_scene.m_device.newTextureWithDescriptor(textureDesc)
-        m_shadowPass.colorAttachments[0] = nil
-        m_shadowPass.depthAttachment.texture = m_shadowMap
+        m_shadowPass.colorAttachments[0].texture = m_shadowMap
+        m_shadowPass.colorAttachments[0].storeAction = .Store
+        m_shadowPass.colorAttachments[0].loadAction = MTLLoadAction.Clear
+        m_shadowPass.colorAttachments[0].clearColor = MTLClearColorMake(0,0,0,1)
+        
+
+        
+        
+        /*textureDesc.textureType = MTLTextureType.Type2D
+        textureDesc.width = Int(1024)
+        textureDesc.height = Int(1024)
+        textureDesc.mipmapLevelCount = 1
+        textureDesc.pixelFormat = MTLPixelFormat.Depth32Float
+        m_depthAttach = m_scene.m_device.newTextureWithDescriptor(textureDesc)
+        m_shadowPass.depthAttachment.texture = m_depthAttach
         m_shadowPass.depthAttachment.storeAction = MTLStoreAction.Store
         m_shadowPass.depthAttachment.loadAction = MTLLoadAction.Clear
-        m_shadowPass.depthAttachment.clearDepth = 1.0
+        m_shadowPass.depthAttachment.clearDepth = 1.0*/
         
         
         return m_shadowPass
@@ -111,9 +109,10 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     
     func setupShadowState(){
         let shadowPipelineStateDesc = m_scene.m_utility.m_descriptor.m_renderPipelineDesc
-        shadowPipelineStateDesc.vertexFunction = m_library.newFunctionWithName("renderShadowMap")
-        shadowPipelineStateDesc.fragmentFunction = nil
-        shadowPipelineStateDesc.depthAttachmentPixelFormat = MTLPixelFormat.Depth32Float
+        shadowPipelineStateDesc.vertexFunction = m_library.newFunctionWithName("renderShadowMapVertex")
+        shadowPipelineStateDesc.fragmentFunction = m_library.newFunctionWithName("renderShadowMapFragment")
+        shadowPipelineStateDesc.colorAttachments[0].pixelFormat = m_shadowMap.pixelFormat
+        //shadowPipelineStateDesc.depthAttachmentPixelFormat = MTLPixelFormat.Depth32Float
         
         do{
             try m_shadowPipelieState = m_scene.m_device.newRenderPipelineStateWithDescriptor(shadowPipelineStateDesc)
@@ -130,6 +129,10 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     
     
     func renderShadowMap(encoder:MTLRenderCommandEncoder){
+        encoder.setVertexBuffer(m_scene.m_utility.m_camera.shadowProjecitonBuffer(), offset: 0, atIndex: 1)
+        encoder.setVertexBuffer(m_scene.m_utility.m_camera.sunViewBuffer(), offset: 0, atIndex: 3)
+        //encoder.setDepthBias(0.05, slopeScale: 1.1, clamp: 1)
+        //encoder.setCullMode(.Front)
         for actor in m_scene.m_actor{
             actor.renderToShadowMap(encoder, pipelineState: m_shadowPipelieState,depthState:m_shadowDepthStencilState)
         }
@@ -287,7 +290,11 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     func renderToGbuffer(encoder:MTLRenderCommandEncoder){
         m_secondPassDesc.colorAttachments[0].loadAction = MTLLoadAction.DontCare
         m_secondPassDesc.colorAttachments[0].storeAction = MTLStoreAction.DontCare
+        //encoder.setCullMode(.Back)
         encoder.label = "G-buffer"
+        encoder.setVertexBuffer(m_scene.m_utility.m_camera.projectionBuffer(), offset: 0, atIndex: 1)
+        encoder.setVertexBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 3)
+
         for actor in m_scene.m_actor{
             actor.renderWithPipelineStates(encoder, pipelineState: m_geometryPipelineState, depthState: m_geometryDepthStencilState)
             
