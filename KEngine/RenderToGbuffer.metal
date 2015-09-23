@@ -27,9 +27,9 @@ vertex GbufferInOut gbufferVertex(const device Vertex* in [[buffer(0)]],const de
 
 fragment GBufferOut gbufferFragment(GbufferInOut in [[stage_in]]){
     GBufferOut out;
-    out.pos = in.posWorld;
-    out.normal = in.normal;
-    out.color = float4(0.2,0.2,0.2,1.0);
+    out.pos = in.posWorld;//color 2
+    out.normal = in.normal;//color 1
+    out.color = float4(0.2,0.2,0.2,1.0); //color 0
     return out;
 }
 

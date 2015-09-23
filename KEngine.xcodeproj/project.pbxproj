@@ -24,6 +24,9 @@
 		1B21EC831B92D4C7000A0EC2 /* GameUniformBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC821B92D4C7000A0EC2 /* GameUniformBuffer.swift */; };
 		1B21ECA91B9837B2000A0EC2 /* GameDefferedRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21ECA81B9837B2000A0EC2 /* GameDefferedRender.swift */; };
 		1B21ECAD1B99ADFD000A0EC2 /* RenderToGbuffer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B21ECAC1B99ADFD000A0EC2 /* RenderToGbuffer.metal */; };
+		1B81C1B21BB1003D00CE6ADD /* GameFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1B11BB1003D00CE6ADD /* GameFilter.swift */; settings = {ASSET_TAGS = (); }; };
+		1B81C1B41BB1060000CE6ADD /* GaussianBlur.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1B31BB1060000CE6ADD /* GaussianBlur.metal */; settings = {ASSET_TAGS = (); }; };
+		1B81C1B81BB19FA200CE6ADD /* GameGaussianFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1B71BB19FA200CE6ADD /* GameGaussianFilter.swift */; settings = {ASSET_TAGS = (); }; };
 		1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */; };
 		1BB4DFF31BA5398D00617A22 /* RenderShadowMap.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */; };
 		1BC4521D1B9EC82A000538EF /* GameUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC4521C1B9EC82A000538EF /* GameUtility.swift */; };
@@ -73,6 +76,9 @@
 		1B21ECA81B9837B2000A0EC2 /* GameDefferedRender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDefferedRender.swift; sourceTree = "<group>"; };
 		1B21ECAC1B99ADFD000A0EC2 /* RenderToGbuffer.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderToGbuffer.metal; sourceTree = "<group>"; };
 		1B21ECAF1B99AE50000A0EC2 /* shaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shaderTypes.h; sourceTree = "<group>"; };
+		1B81C1B11BB1003D00CE6ADD /* GameFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameFilter.swift; sourceTree = "<group>"; };
+		1B81C1B31BB1060000CE6ADD /* GaussianBlur.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = GaussianBlur.metal; sourceTree = "<group>"; };
+		1B81C1B71BB19FA200CE6ADD /* GameGaussianFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameGaussianFilter.swift; sourceTree = "<group>"; };
 		1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DefferredShadingComposition.metal; sourceTree = "<group>"; };
 		1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderShadowMap.metal; sourceTree = "<group>"; };
 		1BC4521C1B9EC82A000538EF /* GameUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtility.swift; sourceTree = "<group>"; };
@@ -194,6 +200,8 @@
 			children = (
 				1B21ECAE1B99AE1D000A0EC2 /* Shader */,
 				1B21ECA81B9837B2000A0EC2 /* GameDefferedRender.swift */,
+				1B81C1B11BB1003D00CE6ADD /* GameFilter.swift */,
+				1B81C1B71BB19FA200CE6ADD /* GameGaussianFilter.swift */,
 			);
 			name = GameRender;
 			sourceTree = "<group>";
@@ -214,6 +222,7 @@
 				1B21ECAC1B99ADFD000A0EC2 /* RenderToGbuffer.metal */,
 				1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */,
 				1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */,
+				1B81C1B31BB1060000CE6ADD /* GaussianBlur.metal */,
 			);
 			name = Shader;
 			sourceTree = "<group>";
@@ -365,6 +374,7 @@
 				1BFD7AB91B9D718800759DF6 /* GameLight.swift in Sources */,
 				1B21EC7E1B91CAF6000A0EC2 /* RenderToScreenShader.metal in Sources */,
 				1B21EC801B91D686000A0EC2 /* GameCamera.swift in Sources */,
+				1B81C1B41BB1060000CE6ADD /* GaussianBlur.metal in Sources */,
 				1B21EC691B8F53F4000A0EC2 /* GameScene.swift in Sources */,
 				1B21EC6E1B8F5809000A0EC2 /* Descriptor.swift in Sources */,
 				1B21EC731B8F5E71000A0EC2 /* Math.swift in Sources */,
@@ -373,9 +383,11 @@
 				1BC4521D1B9EC82A000538EF /* GameUtility.swift in Sources */,
 				1B21EC831B92D4C7000A0EC2 /* GameUniformBuffer.swift in Sources */,
 				1B21EC751B8F7356000A0EC2 /* sephere.swift in Sources */,
+				1B81C1B21BB1003D00CE6ADD /* GameFilter.swift in Sources */,
 				1BB4DFF31BA5398D00617A22 /* RenderShadowMap.metal in Sources */,
 				1B21EC381B8F530D000A0EC2 /* AppDelegate.swift in Sources */,
 				1B21ECA91B9837B2000A0EC2 /* GameDefferedRender.swift in Sources */,
+				1B81C1B81BB19FA200CE6ADD /* GameGaussianFilter.swift in Sources */,
 				1B21EC701B8F5CE3000A0EC2 /* GameActor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

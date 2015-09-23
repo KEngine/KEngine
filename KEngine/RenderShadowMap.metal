@@ -25,11 +25,13 @@ vertex ShadowOutPut renderShadowMapVertex(const device Vertex* in [[buffer(0)]],
 }
 
 
-fragment float4 renderShadowMapFragment(ShadowOutPut in [[stage_in]]){
+fragment float2 renderShadowMapFragment(ShadowOutPut in [[stage_in]]){
     //return in.pos.z/in.pos.w;
     float depth = in.pos.z/in.pos.w;
     //float4 color = float4(0,1,0,1);
-    float4 color = float4(depth,depth,depth,1);
+    float dx = dfdx(depth);
+    float dy = dfdy(depth);
+    float2 color = float2(depth,depth * depth + 0.25 * (dx * dx + dy * dy));
     return color;
 }
 

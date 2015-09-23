@@ -50,7 +50,7 @@ class GameScene: UIViewController{
         m_render = GameDefferedRender(scene: self)
         m_mtkView.delegate = m_render
         m_cameraDelegate = m_utility.m_camera
-        m_mtkView.preferredFramesPerSecond = 30
+        m_mtkView.preferredFramesPerSecond = 60
         addAppNotification()
         setupGesture()
         

@@ -30,7 +30,6 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     float3 vertex_cam = (view.matrix * gBuffer.pos).xyz;
     float3 normal_cam = gBuffer.normal.xyz;
     
-    float3 camera_cam = float3(0,0,0);
     float4 ambient_color = float4(0.15,0.15,0.15,1);
     
     
@@ -59,12 +58,20 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     
     
     //float shadow = shadowMap.sample_compare(shadow_sampler, shadowcoord.xy/shadowcoord.w ,shadowcoord.z/shadowcoord.w);
-    constexpr sampler s(coord::normalized,filter::linear,address::clamp_to_edge);
+    constexpr sampler s(coord::normalized,filter::linear,address::clamp_to_zero);
     
-    float4 depth = shadowMap.sample(s,shadowcoord.xy/shadowcoord.w);
+    float2 moments = shadowMap.sample(s,shadowcoord.xy/shadowcoord.w).xy;
+    float p = step(shadowcoord.z,moments.x);
+    float variance = max(moments.y - moments.x * moments.x,0.99);
+    
+    float d = shadowcoord.z - moments.x;
+    float pMax = variance /(variance + d*d);
+    
+    //float pMax = clamp((v - 0.4)/(1.0 - v),0.4,1.0);
+    
+    float shadow = min(1.0,max(p,pMax));
     
     
-    float shadow = step(shadowcoord.z,depth.x);
     
     
     float constantAttenuation = 0.5;
@@ -79,12 +86,6 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     float shine = lights[0].shine;
     float4 light_color = float4(float3(lights[0].color),1.0);
     float3 light_cam = (view.matrix * float4(float3(lights[0].pos),1.0)).xyz;
-    //float3 lightDir = light_cam - vertex_cam;
-    //float lightDistance = length(lightDir);
-    //lightDir = lightDir / lightDistance;
-    //float attenuation = 1.0 / (constantAttenuation + linearAttenuation * lightDistance + quadraticAttenuation * lightDistance * lightDistance);
-    
-    
     
     float3 n = normalize(normal_cam);
     float3 l = normalize(light_cam);
@@ -92,29 +93,33 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     diffuse_color += light_color * n_dot_l * gBuffer.color * 1.2 * shadow;
     
     
-    float3 e = normalize(light_cam + camera_cam - vertex_cam);
+    float3 e = normalize(light_cam  - vertex_cam);
     float3 r = -l + 2.0 * n_dot_l * n;
     float e_dot_r = saturate(dot(e,r));
     specluar_color += materialSpecular * light_color * pow(e_dot_r,shine) * shadow;
-    
-    for (int i = 1 ; i < 7; ++i){
-        shine = lights[i].shine;
-        light_color = float4(float3(lights[i].color),1.0);
+    //Compute Spot Light
+    for (int i = 1 ; i < 6; ++i){
         light_cam = (view.matrix * float4(float3(lights[i].pos),1.0)).xyz;
         float3 lightDir = light_cam - vertex_cam;
         float lightDistance = length(lightDir);
         lightDir = lightDir / lightDistance;
         float attenuation = 1 / (constantAttenuation + linearAttenuation * lightDistance + quadraticAttenuation * lightDistance * lightDistance);
-
-
-    
+        
+        if(attenuation < 0.01){
+            continue;
+        }
+        
+        
+        
+        shine = lights[i].shine;
+        light_color = float4(float3(lights[i].color),1.0);
         n = normalize(normal_cam);
         l = normalize(light_cam);
         n_dot_l = saturate(dot(n,l));
         diffuse_color += light_color * n_dot_l * materialDiffuse * attenuation;
     
     
-        e = normalize(light_cam + camera_cam - vertex_cam);
+        e = normalize(light_cam - vertex_cam);
         r = -l + 2.0 * n_dot_l * n;
         e_dot_r = saturate(dot(e,r));
         specluar_color += materialSpecular * light_color * pow(e_dot_r,shine) * attenuation;

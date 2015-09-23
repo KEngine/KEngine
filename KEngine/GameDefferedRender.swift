@@ -10,7 +10,6 @@ import Foundation
 import Metal
 import MetalKit
 
-
 protocol GameRenderDelegate{
     func renderWithPipelineStates(encoder:MTLRenderCommandEncoder,pipelineState:MTLRenderPipelineState,depthState:MTLDepthStencilState)
 }
@@ -35,6 +34,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     
     //Shadow Pass
     var m_shadowMap:MTLTexture! = nil
+    var m_shadowMapBlur:MTLTexture! = nil
     var m_depthAttach:MTLTexture! = nil
     var m_shadowPass = MTLRenderPassDescriptor()
     var m_shadowPipelieState:MTLRenderPipelineState! = nil
@@ -54,12 +54,14 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     
     var m_screenQuard:GameActorAsset! = nil
     
+    var m_shadowMapFilter:GameFilter! = nil
+    var m_gaussianBlur : GameGaussianBlur! = nil
     
     init(scene:GameScene) {
         super.init()
         m_scene = scene
         m_secondPassDesc = scene.m_utility.m_descriptor.m_renderPassDesc
-        m_library = m_scene.m_device.newDefaultLibrary()
+        m_library = m_scene.m_utility.m_library
         m_commandQueue = m_scene.m_device.newCommandQueue()
         
         //Shadow Pass
@@ -72,6 +74,8 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         setupGeometryState()
         setupCompostionState()
         m_screenQuard = GameActorAsset(vertices: screenQuard_vertices, indices: screenQuard_indices, primitiveType: MTLPrimitiveType.Triangle, device: m_scene.m_device)
+        m_shadowMapFilter = GameFilter(functionName: "GaussianBlur", soureceTexture: m_shadowMap, targetTexture: m_shadowMapBlur, scene: m_scene)
+        m_gaussianBlur = GameGaussianBlur(scene: m_scene)
     }
     
         
@@ -79,11 +83,13 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     func shadowPassDesc()->MTLRenderPassDescriptor{
         let textureDesc = m_scene.m_utility.m_descriptor.m_textureDesc
         textureDesc.textureType = MTLTextureType.Type2D
-        textureDesc.width = Int(1024)
+        textureDesc.width = Int(1560)
         textureDesc.height = Int(1024)
         textureDesc.mipmapLevelCount = 1
         textureDesc.pixelFormat = MTLPixelFormat.RG32Float
         m_shadowMap = m_scene.m_device.newTextureWithDescriptor(textureDesc)
+        
+        m_shadowMapBlur = m_scene.m_device.newTextureWithDescriptor(textureDesc)
         m_shadowPass.colorAttachments[0].texture = m_shadowMap
         m_shadowPass.colorAttachments[0].storeAction = .Store
         m_shadowPass.colorAttachments[0].loadAction = MTLLoadAction.Clear
@@ -136,6 +142,10 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         for actor in m_scene.m_actor{
             actor.renderToShadowMap(encoder, pipelineState: m_shadowPipelieState,depthState:m_shadowDepthStencilState)
         }
+        
+        
+        encoder.endEncoding()
+
     }
     
     
@@ -159,7 +169,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
 
         
         
-        renderPipelineDesc.depthAttachmentPixelFormat = m_scene.m_mtkView.depthStencilPixelFormat
+        //renderPipelineDesc.depthAttachmentPixelFormat = m_scene.m_mtkView.depthStencilPixelFormat
         //renderPipelineDesc.stencilAttachmentPixelFormat = m_scene.m_mtkView.depthStencilPixelFormat
         
         do{
@@ -249,13 +259,13 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
             
             
             
-            textureDesc.pixelFormat = MTLPixelFormat.Depth32Float
+            /*textureDesc.pixelFormat = MTLPixelFormat.Depth32Float
             
             let deptAttachmentDesc = m_scene.m_utility.m_descriptor.m_deptAttachmentDesc
             deptAttachmentDesc.texture = m_scene.m_device.newTextureWithDescriptor(textureDesc)
             deptAttachmentDesc.loadAction = MTLLoadAction.Clear
             deptAttachmentDesc.storeAction = MTLStoreAction.Store
-            deptAttachmentDesc.clearDepth = 1
+            deptAttachmentDesc.clearDepth = 1*/
             
             
             /*let stencilAttachmentDesc = m_scene.m_utility.m_descriptor.m_stencilAttachmentDesc
@@ -264,7 +274,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
             stencilAttachmentDesc.storeAction = MTLStoreAction.Store
             stencilAttachmentDesc.clearStencil = 1*/
             
-            m_secondPassDesc.depthAttachment = deptAttachmentDesc
+            //m_secondPassDesc.depthAttachment = deptAttachmentDesc
             //m_secondPassDesc.stencilAttachment = stencilAttachmentDesc
             
             m_sizeChanged = false
@@ -279,7 +289,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 1)
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.shadowProjecitonBuffer(), offset: 0, atIndex: 2)
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.sunViewBuffer(), offset: 0, atIndex: 3)
-        encoder.setFragmentTexture(m_shadowMap, atIndex: 0)
+        encoder.setFragmentTexture(m_shadowMapBlur, atIndex: 0)
         encoder.setVertexBuffer(m_screenQuard.m_vertexBuffer, offset: 0, atIndex: 0)
         encoder.setRenderPipelineState(m_compositionPipelineState)
         encoder.setDepthStencilState(m_compositionDepthStencilState)
@@ -352,14 +362,17 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         //shadow
         let shadowEncoder = commandBuffer.renderCommandEncoderWithDescriptor(m_shadowPass)
         renderShadowMap(shadowEncoder)
-        shadowEncoder.endEncoding()
         
+        /*let computeEncoder = commandBuffer.computeCommandEncoder()
+        m_shadowMapFilter.applyFilter(computeEncoder)*/
         
-        
+        m_gaussianBlur.applyGaussian(commandBuffer, source: m_shadowMap, destnation: m_shadowMapBlur)
         let encoder = commandBuffer.renderCommandEncoderWithDescriptor(setupSecondPassRenderPassDesc(view.currentDrawable!.texture))
 
         //1.Gbuffer Render
         renderToGbuffer(encoder)
+        
+        
         
         
         //2/composition Render
