@@ -98,7 +98,7 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     float e_dot_r = saturate(dot(e,r));
     specluar_color += materialSpecular * light_color * pow(e_dot_r,shine) * shadow;
     //Compute Spot Light
-    for (int i = 1 ; i < 6; ++i){
+    /*for (int i = 1 ; i < 6; ++i){
         light_cam = (view.matrix * float4(float3(lights[i].pos),1.0)).xyz;
         float3 lightDir = light_cam - vertex_cam;
         float lightDistance = length(lightDir);
@@ -123,7 +123,7 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
         r = -l + 2.0 * n_dot_l * n;
         e_dot_r = saturate(dot(e,r));
         specluar_color += materialSpecular * light_color * pow(e_dot_r,shine) * attenuation;
-    }
+    }*/
     color = half4(ambient_color + diffuse_color + specluar_color);
     return color;
 

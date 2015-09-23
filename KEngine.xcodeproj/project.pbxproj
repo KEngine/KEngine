@@ -27,6 +27,8 @@
 		1B81C1B21BB1003D00CE6ADD /* GameFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1B11BB1003D00CE6ADD /* GameFilter.swift */; settings = {ASSET_TAGS = (); }; };
 		1B81C1B41BB1060000CE6ADD /* GaussianBlur.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1B31BB1060000CE6ADD /* GaussianBlur.metal */; settings = {ASSET_TAGS = (); }; };
 		1B81C1B81BB19FA200CE6ADD /* GameGaussianFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1B71BB19FA200CE6ADD /* GameGaussianFilter.swift */; settings = {ASSET_TAGS = (); }; };
+		1B81C1BA1BB2703700CE6ADD /* GameTerrainActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1B91BB2703700CE6ADD /* GameTerrainActor.swift */; settings = {ASSET_TAGS = (); }; };
+		1B81C1BC1BB2751300CE6ADD /* GameGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1BB1BB2751300CE6ADD /* GameGrid.swift */; settings = {ASSET_TAGS = (); }; };
 		1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */; };
 		1BB4DFF31BA5398D00617A22 /* RenderShadowMap.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */; };
 		1BC4521D1B9EC82A000538EF /* GameUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC4521C1B9EC82A000538EF /* GameUtility.swift */; };
@@ -79,6 +81,8 @@
 		1B81C1B11BB1003D00CE6ADD /* GameFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameFilter.swift; sourceTree = "<group>"; };
 		1B81C1B31BB1060000CE6ADD /* GaussianBlur.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = GaussianBlur.metal; sourceTree = "<group>"; };
 		1B81C1B71BB19FA200CE6ADD /* GameGaussianFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameGaussianFilter.swift; sourceTree = "<group>"; };
+		1B81C1B91BB2703700CE6ADD /* GameTerrainActor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTerrainActor.swift; sourceTree = "<group>"; };
+		1B81C1BB1BB2751300CE6ADD /* GameGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameGrid.swift; sourceTree = "<group>"; };
 		1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DefferredShadingComposition.metal; sourceTree = "<group>"; };
 		1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderShadowMap.metal; sourceTree = "<group>"; };
 		1BC4521C1B9EC82A000538EF /* GameUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtility.swift; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				1B21EC6F1B8F5CE3000A0EC2 /* GameActor.swift */,
+				1B81C1BD1BB2752100CE6ADD /* GameTerrain */,
 				1B21EC761B8F7493000A0EC2 /* GameActorAsset.swift */,
 				1B21EC741B8F7356000A0EC2 /* sephere.swift */,
 			);
@@ -225,6 +230,15 @@
 				1B81C1B31BB1060000CE6ADD /* GaussianBlur.metal */,
 			);
 			name = Shader;
+			sourceTree = "<group>";
+		};
+		1B81C1BD1BB2752100CE6ADD /* GameTerrain */ = {
+			isa = PBXGroup;
+			children = (
+				1B81C1B91BB2703700CE6ADD /* GameTerrainActor.swift */,
+				1B81C1BB1BB2751300CE6ADD /* GameGrid.swift */,
+			);
+			name = GameTerrain;
 			sourceTree = "<group>";
 		};
 		1BF9D6551B9D8B030096A2E5 /* GameLight */ = {
@@ -370,12 +384,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BF9D6571B9D8B2F0096A2E5 /* GameLightArray.swift in Sources */,
+				1B81C1BC1BB2751300CE6ADD /* GameGrid.swift in Sources */,
 				1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */,
 				1BFD7AB91B9D718800759DF6 /* GameLight.swift in Sources */,
 				1B21EC7E1B91CAF6000A0EC2 /* RenderToScreenShader.metal in Sources */,
 				1B21EC801B91D686000A0EC2 /* GameCamera.swift in Sources */,
 				1B81C1B41BB1060000CE6ADD /* GaussianBlur.metal in Sources */,
 				1B21EC691B8F53F4000A0EC2 /* GameScene.swift in Sources */,
+				1B81C1BA1BB2703700CE6ADD /* GameTerrainActor.swift in Sources */,
 				1B21EC6E1B8F5809000A0EC2 /* Descriptor.swift in Sources */,
 				1B21EC731B8F5E71000A0EC2 /* Math.swift in Sources */,
 				1B21ECAD1B99ADFD000A0EC2 /* RenderToGbuffer.metal in Sources */,

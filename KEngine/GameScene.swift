@@ -109,8 +109,9 @@ class GameScene: UIViewController{
         //actor4.translate(-5, y: 0, z: -5)
         
         
-        _ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[-8,8,0], scene: self)
+        //_ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[-8,8,0], scene: self)
         //actor5.translate(10, y: 0, z: 0)
+        _ = GameTerrainActor(scene: self, m0: [20,-20], m1: [20,20], m2: [-20,20], m3: [-20,-20], depth: 2)
         
     }
     
