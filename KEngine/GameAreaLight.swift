@@ -29,7 +29,7 @@ class GameAreaLight: NSObject{
     
     func renderWithPipelineStates(encoder: MTLRenderCommandEncoder,pipelineState:MTLRenderPipelineState,depthState:MTLDepthStencilState) {
         encoder.setVertexBuffer(m_asset.vertexBuffer(), offset: 0, atIndex: 0)
-        encoder.setVertexBuffer(m_modelBuffer.buffer(), offset: 0, atIndex: 2)
+        encoder.setVertexBuffer(m_modelBuffer.buffer(), offset: 0, atIndex: 3)
         encoder.setRenderPipelineState(pipelineState)
         encoder.setDepthStencilState(depthState)
         encoder.drawIndexedPrimitives(m_asset.m_primitiveType, indexCount: m_asset.m_indices.count, indexType: MTLIndexType.UInt16, indexBuffer: m_asset.m_indexBuffer, indexBufferOffset: 0)

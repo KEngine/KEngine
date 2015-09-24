@@ -245,7 +245,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         m_lightColorDepthStencilState = m_scene.m_device.newDepthStencilStateWithDescriptor(depthStencilDesc)
         
         renderpipelineDesc.label = "Light Mask Render"
-        renderpipelineDesc.vertexFunction = m_library.newFunctionWithName("lightVert")
+        renderpipelineDesc.vertexFunction = m_library.newFunctionWithName("lightVertex")
         renderpipelineDesc.fragmentFunction = nil
         for var i = 0 ; i <= 2 ; ++i{
             renderpipelineDesc.colorAttachments[i].writeMask = MTLColorWriteMask.None
@@ -257,7 +257,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         }
         
         renderpipelineDesc.label = "Light Color Render"
-        renderpipelineDesc.vertexFunction = m_library.newFunctionWithName("lightVert")
+        renderpipelineDesc.vertexFunction = m_library.newFunctionWithName("lightVertex")
         renderpipelineDesc.fragmentFunction = m_library.newFunctionWithName("lightFragment")
         for var i = 0 ; i <= 2 ; ++i{
             renderpipelineDesc.colorAttachments[i].writeMask = MTLColorWriteMask.All
@@ -271,6 +271,17 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     
     
     func renderLight(encoder:MTLRenderCommandEncoder){
+        //1.Light Mask
+        encoder.setVertexBuffer(m_scene.m_utility.m_camera.m_projectionBuffer.buffer(), offset: 0, atIndex: 1)
+        encoder.setVertexBuffer(m_scene.m_utility.m_camera.m_viewBuffer.buffer(), offset: 0, atIndex: 2)
+        for light in m_scene.m_light{
+            light.renderWithPipelineStates(encoder, pipelineState: m_lightMaskPipelineState, depthState: m_lightMaskDepthStencilState)
+        }
+        //2.Light Color
+        for light in m_scene.m_light{
+            light.renderWithPipelineStates(encoder, pipelineState: m_lightColorPipelineState, depthState: m_lightColorDepthStencilState)
+        }
+        
         
     }
     
