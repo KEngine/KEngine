@@ -124,9 +124,13 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
         e_dot_r = saturate(dot(e,r));
         specluar_color += materialSpecular * light_color * pow(e_dot_r,shine) * attenuation;
     }*/
+    
+    diffuse_color += gBuffer.light * materialDiffuse;
+    specluar_color += gBuffer.light *materialSpecular;
+    
     color = half4(ambient_color + diffuse_color + specluar_color);
     return color;
-
+    //return half4(gBuffer.light);
 }
 
 

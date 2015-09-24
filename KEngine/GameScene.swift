@@ -110,9 +110,21 @@ class GameScene: UIViewController{
         //actor4.translate(-5, y: 0, z: -5)
         
         
-        _ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[-8,8,0], scene: self)
+        _ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[0,8,0], scene: self)
         //actor5.translate(10, y: 0, z: 0)
        // _ = GameTerrainActor(scene: self, m0: [20,-20], m1: [20,20], m2: [-20,20], m3: [-20,-20], depth: 2)
+        
+        m_light = [GameAreaLight]()
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,5,0], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,10,0], color: [0,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,0,10], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [10,0,0], color: [1,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-10,0,0], color: [0,1,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,20,0], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,0,20], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [30,0,0], color: [0,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,30,0], color: [1,0.5,0], scene: self)
+
         
     }
     

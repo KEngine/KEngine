@@ -66,7 +66,7 @@ let plat_vertices:[Float] = [
     
 ]
 let plat_indices:[UInt16] = [
-    0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11
+    2,1,0,3,2,0,6,5,4,7,6,4,10,9,8,11,10,8
 ]
 
 let screenQuard_vertices :[Float] = [

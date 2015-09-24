@@ -61,6 +61,7 @@ struct GbufferInOut{
     float4 pos [[position]];
     float4 normal;
     float4 posWorld;
+    float linearDepth;
 };
 
 
