@@ -44,6 +44,17 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     //Pass 2: G-Buffer
     var m_geometryPipelineState:MTLRenderPipelineState! = nil
     var m_geometryDepthStencilState:MTLDepthStencilState! = nil
+    
+    //Pass 2 : Light
+    
+    //light mask (Render A Stencil Buffer)
+    var m_lightMaskPipelineState:MTLRenderPipelineState! = nil
+    var m_lightMaskDepthStencilState:MTLDepthStencilState! = nil
+    //light color (Render Light Color Indeed)
+    var m_lightColorPipelineState:MTLRenderPipelineState! = nil
+    var m_lightColorDepthStencilState:MTLDepthStencilState! = nil
+    
+    
     //Pass 2: Composition
     var m_compositionPipelineState:MTLRenderPipelineState! = nil
     var m_compositionDepthStencilState:MTLDepthStencilState! = nil
@@ -75,7 +86,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         setupCompostionState()
         m_screenQuard = GameActorAsset(vertices: screenQuard_vertices, indices: screenQuard_indices, primitiveType: MTLPrimitiveType.Triangle, device: m_scene.m_device)
         m_shadowMapFilter = GameFilter(functionName: "GaussianBlur", soureceTexture: m_shadowMap, targetTexture: m_shadowMapBlur, scene: m_scene)
-        m_gaussianBlur = GameGaussianBlur(scene: m_scene)
+        //m_gaussianBlur = GameGaussianBlur(scene: m_scene)
     }
     
         
@@ -164,13 +175,14 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         renderPipelineDesc.colorAttachments[0].pixelFormat = m_scene.m_mtkView.colorPixelFormat
         renderPipelineDesc.colorAttachments[1].pixelFormat = MTLPixelFormat.RGBA16Float
         renderPipelineDesc.colorAttachments[2].pixelFormat = MTLPixelFormat.RGBA16Float
+        renderPipelineDesc.colorAttachments[3].pixelFormat = MTLPixelFormat.RGBA16Float
         //m_scene.m_mtkView.colorPixelFormat
         //renderPipelineDesc.colorAttachments[3].pixelFormat = m_scene.m_mtkView.colorPixelFormat
 
         
         
         //renderPipelineDesc.depthAttachmentPixelFormat = m_scene.m_mtkView.depthStencilPixelFormat
-        //renderPipelineDesc.stencilAttachmentPixelFormat = m_scene.m_mtkView.depthStencilPixelFormat
+        renderPipelineDesc.stencilAttachmentPixelFormat = MTLPixelFormat.Stencil8
         
         do{
             m_geometryPipelineState = try m_scene.m_device.newRenderPipelineStateWithDescriptor(renderPipelineDesc)
@@ -180,9 +192,86 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         
         
         let depthStencilDesc = m_scene.m_utility.m_descriptor.m_depthDesc
+        let stencilState = m_scene.m_utility.m_descriptor.m_stencilDesc
         depthStencilDesc.depthWriteEnabled = true
         depthStencilDesc.depthCompareFunction = MTLCompareFunction.LessEqual
+        stencilState.stencilCompareFunction = MTLCompareFunction.Always
+        stencilState.stencilFailureOperation = MTLStencilOperation.Keep
+        stencilState.depthFailureOperation = MTLStencilOperation.Keep
+        stencilState.depthStencilPassOperation = MTLStencilOperation.Replace
+        stencilState.readMask = 0xFF
+        stencilState.writeMask = 0xFF
+        depthStencilDesc.frontFaceStencil = stencilState
+        depthStencilDesc.backFaceStencil = stencilState
+        
+        
         m_geometryDepthStencilState = m_scene.m_device.newDepthStencilStateWithDescriptor(depthStencilDesc)
+    }
+    
+    
+    
+    //设置light state pipelinestate
+    
+    
+    func setupLightState(){
+        let renderpipelineDesc = m_scene.m_utility.m_descriptor.m_renderPipelineDesc
+        let depthStencilDesc = m_scene.m_utility.m_descriptor.m_depthDesc
+        let stencilState = m_scene.m_utility.m_descriptor.m_stencilDesc
+        
+        depthStencilDesc.depthWriteEnabled = false
+        stencilState.stencilCompareFunction = MTLCompareFunction.Equal
+        stencilState.stencilFailureOperation = MTLStencilOperation.Keep
+        stencilState.depthFailureOperation = MTLStencilOperation.IncrementClamp
+        stencilState.depthStencilPassOperation = MTLStencilOperation.Keep
+        stencilState.writeMask = 0xFF
+        stencilState.readMask = 0xFF
+        depthStencilDesc.depthCompareFunction = MTLCompareFunction.LessEqual
+        depthStencilDesc.frontFaceStencil = stencilState
+        depthStencilDesc.backFaceStencil = stencilState
+        m_lightMaskDepthStencilState = m_scene.m_device.newDepthStencilStateWithDescriptor(depthStencilDesc)
+        
+        
+        
+        depthStencilDesc.depthWriteEnabled = false
+        stencilState.stencilCompareFunction = MTLCompareFunction.Less
+        stencilState.stencilFailureOperation = MTLStencilOperation.Keep
+        stencilState.depthFailureOperation = MTLStencilOperation.DecrementClamp
+        stencilState.depthStencilPassOperation = MTLStencilOperation.DecrementClamp
+        stencilState.writeMask = 0xFF
+        stencilState.readMask = 0xFF
+        depthStencilDesc.depthCompareFunction = MTLCompareFunction.LessEqual
+        depthStencilDesc.frontFaceStencil = stencilState
+        depthStencilDesc.backFaceStencil = stencilState
+        m_lightColorDepthStencilState = m_scene.m_device.newDepthStencilStateWithDescriptor(depthStencilDesc)
+        
+        renderpipelineDesc.label = "Light Mask Render"
+        renderpipelineDesc.vertexFunction = m_library.newFunctionWithName("lightVert")
+        renderpipelineDesc.fragmentFunction = nil
+        for var i = 0 ; i <= 2 ; ++i{
+            renderpipelineDesc.colorAttachments[i].writeMask = MTLColorWriteMask.None
+        }
+        do{
+            m_lightMaskPipelineState = try m_scene.m_device.newRenderPipelineStateWithDescriptor(renderpipelineDesc)
+        }catch let error as NSError{
+            fatalError(error.localizedDescription)
+        }
+        
+        renderpipelineDesc.label = "Light Color Render"
+        renderpipelineDesc.vertexFunction = m_library.newFunctionWithName("lightVert")
+        renderpipelineDesc.fragmentFunction = m_library.newFunctionWithName("lightFragment")
+        for var i = 0 ; i <= 2 ; ++i{
+            renderpipelineDesc.colorAttachments[i].writeMask = MTLColorWriteMask.All
+        }
+        do{
+            m_lightColorPipelineState = try m_scene.m_device.newRenderPipelineStateWithDescriptor(renderpipelineDesc)
+        }catch let error as NSError{
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    
+    func renderLight(encoder:MTLRenderCommandEncoder){
+        
     }
     
     
@@ -256,26 +345,34 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
             m_colorattachmentDesc.clearColor = MTLClearColorMake(1, 1, 1, 1)
             m_secondPassDesc.colorAttachments[2] = m_colorattachmentDesc
             
+            textureDesc.pixelFormat = MTLPixelFormat.RGBA16Float
+            
+            m_colorattachmentDesc.texture = m_scene.m_device.newTextureWithDescriptor(textureDesc)
+            m_colorattachmentDesc.loadAction = MTLLoadAction.Clear
+            m_colorattachmentDesc.storeAction = MTLStoreAction.DontCare
+            m_colorattachmentDesc.clearColor = MTLClearColorMake(1, 1, 1, 1)
+            m_secondPassDesc.colorAttachments[3] = m_colorattachmentDesc
             
             
             
-            /*textureDesc.pixelFormat = MTLPixelFormat.Depth32Float
             
-            let deptAttachmentDesc = m_scene.m_utility.m_descriptor.m_deptAttachmentDesc
+            textureDesc.pixelFormat = MTLPixelFormat.Stencil8
+            
+            /*let deptAttachmentDesc = m_scene.m_utility.m_descriptor.m_deptAttachmentDesc
             deptAttachmentDesc.texture = m_scene.m_device.newTextureWithDescriptor(textureDesc)
             deptAttachmentDesc.loadAction = MTLLoadAction.Clear
             deptAttachmentDesc.storeAction = MTLStoreAction.Store
             deptAttachmentDesc.clearDepth = 1*/
             
             
-            /*let stencilAttachmentDesc = m_scene.m_utility.m_descriptor.m_stencilAttachmentDesc
-            stencilAttachmentDesc.texture = deptAttachmentDesc.texture!
+            let stencilAttachmentDesc = m_scene.m_utility.m_descriptor.m_stencilAttachmentDesc
+            stencilAttachmentDesc.texture = m_scene.m_device.newTextureWithDescriptor(textureDesc)
             stencilAttachmentDesc.loadAction = MTLLoadAction.Clear
             stencilAttachmentDesc.storeAction = MTLStoreAction.Store
-            stencilAttachmentDesc.clearStencil = 1*/
+            stencilAttachmentDesc.clearStencil = 1
             
             //m_secondPassDesc.depthAttachment = deptAttachmentDesc
-            //m_secondPassDesc.stencilAttachment = stencilAttachmentDesc
+            m_secondPassDesc.stencilAttachment = stencilAttachmentDesc
             
             m_sizeChanged = false
         }
@@ -289,7 +386,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 1)
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.shadowProjecitonBuffer(), offset: 0, atIndex: 2)
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.sunViewBuffer(), offset: 0, atIndex: 3)
-        encoder.setFragmentTexture(m_shadowMapBlur, atIndex: 0)
+        encoder.setFragmentTexture(m_shadowMap, atIndex: 0)
         encoder.setVertexBuffer(m_screenQuard.m_vertexBuffer, offset: 0, atIndex: 0)
         encoder.setRenderPipelineState(m_compositionPipelineState)
         encoder.setDepthStencilState(m_compositionDepthStencilState)
@@ -366,16 +463,18 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         /*let computeEncoder = commandBuffer.computeCommandEncoder()
         m_shadowMapFilter.applyFilter(computeEncoder)*/
         
-        m_gaussianBlur.applyGaussian(commandBuffer, source: m_shadowMap, destnation: m_shadowMapBlur)
+        //m_gaussianBlur.applyGaussian(commandBuffer, source: m_shadowMap, destnation: m_shadowMapBlur)
         let encoder = commandBuffer.renderCommandEncoderWithDescriptor(setupSecondPassRenderPassDesc(view.currentDrawable!.texture))
 
         //1.Gbuffer Render
         renderToGbuffer(encoder)
         
+        //2.Light Render
         
         
         
-        //2/composition Render
+        
+        //3.composition Render
         
         renderToScreen(encoder)
 
