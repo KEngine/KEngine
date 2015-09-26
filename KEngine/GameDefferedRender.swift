@@ -88,7 +88,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         setupCompostionState()
         m_screenQuard = GameActorAsset(vertices: screenQuard_vertices, indices: screenQuard_indices, primitiveType: MTLPrimitiveType.Triangle, device: m_scene.m_device)
         m_shadowMapFilter = GameFilter(functionName: "GaussianBlur", soureceTexture: m_shadowMap, targetTexture: m_shadowMapBlur, scene: m_scene)
-        //m_gaussianBlur = GameGaussianBlur(scene: m_scene)
+        m_gaussianBlur = GameGaussianBlur(scene: m_scene)
     }
     
         
@@ -445,7 +445,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     func renderToGbuffer(encoder:MTLRenderCommandEncoder){
         //m_secondPassDesc.colorAttachments[0].loadAction = MTLLoadAction.DontCare
         //m_secondPassDesc.colorAttachments[0].storeAction = MTLStoreAction.DontCare
-        encoder.setCullMode(.Back)
+        //encoder.setCullMode(.Back)
         encoder.label = "G-buffer"
         //encoder.setCullMode(MTLCullMode.Back)
         encoder.setStencilReferenceValue(128)

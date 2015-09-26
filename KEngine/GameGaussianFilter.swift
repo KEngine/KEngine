@@ -17,7 +17,7 @@ class GameGaussianBlur: NSObject {
     var m_scene:GameScene! = nil
     init(scene:GameScene) {
         m_scene = scene
-        m_gaussianFilter = MPSImageGaussianBlur(device: m_scene.m_device, sigma: 3.0)
+        m_gaussianFilter = MPSImageGaussianBlur(device: m_scene.m_device, sigma: 2.0)
     }
     
     func applyGaussian(commandBuffer:MTLCommandBuffer,source:MTLTexture,destnation:MTLTexture){

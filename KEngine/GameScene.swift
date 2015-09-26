@@ -13,6 +13,7 @@ import UIKit
 
 protocol CameraDelegate{
     func rotate(location:CGPoint);
+
     func scale(scale:CGFloat)
 }
 
@@ -33,6 +34,7 @@ class GameScene: UIViewController{
         super.viewDidLoad()
         m_mtkView = self.view as! MTKView
         m_mtkView.device = m_device
+        print(fmod(0.6, 0.25))
         /*let size = UIScreen.mainScreen().bounds
         let scale = UIScreen.mainScreen().scale
         
@@ -42,13 +44,13 @@ class GameScene: UIViewController{
         //m_mtkView.drawableSize = CGSize(width: CGFloat(size.width * scale / iphone6P), height: CGFloat(size.height * scale / iphone6P))*/
         setupViewPixelFormat()
         
-        
+        //print(fract(double2(0.9 / 0.25)))
         
         // render utility actor init
-        loadActor()
-
         m_utility = GameUtility(scene: self)
         m_render = GameDefferedRender(scene: self)
+
+        loadActor()
         m_mtkView.delegate = m_render
         m_cameraDelegate = m_utility.m_camera
         m_mtkView.preferredFramesPerSecond = 60
@@ -63,7 +65,8 @@ class GameScene: UIViewController{
     }
     
     func Pan(gesture:UIPanGestureRecognizer) {
-        m_cameraDelegate.rotate(gesture.locationInView(m_mtkView))
+            m_cameraDelegate.rotate(gesture.locationInView(m_mtkView))
+
     }
     
     func Pinch(gesture:UIPinchGestureRecognizer){
@@ -110,20 +113,52 @@ class GameScene: UIViewController{
         //actor4.translate(-5, y: 0, z: -5)
         
         
-        _ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[0,8,0], scene: self)
-        //actor5.translate(10, y: 0, z: 0)
-       // _ = GameTerrainActor(scene: self, m0: [20,-20], m1: [20,20], m2: [-20,20], m3: [-20,-20], depth: 2)
-        
+        //_ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[0,8,0], scene: self)
+        //actor5.translate(0, y: -5, z: 0)
+        let terrain = GameTerrainActor(scene: self, m0: [40,-40], m1: [40,40], m2: [-40,40], m3: [-40,-40], depth: 3)
+        terrain.translate(0, y: -10, z: 0)
         m_light = [GameAreaLight]()
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,5,0], color: [1,0,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,10,0], color: [0,1,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,0,10], color: [1,0,1], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [10,0,0], color: [1,1,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-10,0,0], color: [0,1,1], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,20,0], color: [1,0,1], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,0,20], color: [1,0,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [30,0,0], color: [0,0,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,30,0], color: [1,0.5,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-7,1,0], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [5,1,0], color: [0,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,0,1], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [6,2,-7], color: [1,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,1,8], color: [0,1,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-8,2,2], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [4.6,3,-2], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-2,2,-2], color: [0,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [2,5,8], color: [1,0.5,0], scene: self)
+        
+        /*_ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,2,5], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [2.5,1.0,3], color: [0,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-8,8,1], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,2,-7], color: [1,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [1,-1,8], color: [0,1,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-3,2,1], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [1,3,-2], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-2,8,-2], color: [0,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [9,6,-5], color: [1,0.5,0], scene: self)
+        
+        
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [7,1,-4], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [5,2,0], color: [0,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,6,9], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [1,2.8,-7.4], color: [1,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,2,8], color: [0,1,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-5,2,-9], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [4,6,2], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-2,2,-2], color: [0,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-2,1,-8], color: [1,0.5,0], scene: self)
+        
+        
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-4,4,7.5], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [5,1,0], color: [0,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,4,7], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [1,2,-7], color: [1,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [4,5,-8], color: [0,1,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-5,2,1], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [9,3,-2], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-2,3,-2], color: [0,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [3,5,-8], color: [1,0.5,0], scene: self)*/
 
         
     }

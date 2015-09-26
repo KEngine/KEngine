@@ -20,6 +20,7 @@ class GameAreaLight: NSObject{
     var m_color:[Float]! = nil
     var m_lightInfoBuffer:GameUniformBuffer! = nil
     
+    var m_ball:GameActor! = nil
 
     
     init(vertex:[Float],index:[UInt16],pos:[Float],color:[Float],scene:GameScene) {
@@ -33,6 +34,7 @@ class GameAreaLight: NSObject{
         m_modelMatrix.scale(10)
 
         m_modelBuffer = GameUniformBuffer(data: m_modelMatrix.dumpToSwift(), scene: scene)
+        m_ball = GameActor(vertices: ball_vertices, indices: ball_indices, pos: m_pos, scene: scene)
         scene.m_light.append(self)
     }
     

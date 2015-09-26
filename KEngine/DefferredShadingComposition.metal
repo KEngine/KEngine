@@ -72,12 +72,6 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     float shadow = min(1.0,max(p,pMax));
     
     
-    
-    
-    float constantAttenuation = 0.5;
-    float linearAttenuation = 0;
-    float quadraticAttenuation = 0.05;
-    
     float4 diffuse_color = float4(0);
     float4 specluar_color = float4(0);
     

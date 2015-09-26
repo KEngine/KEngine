@@ -19,6 +19,7 @@ class GameUtility:NSObject {
     var m_camera:GameCamera! = nil
     var m_gaussianBlur:MPSImageGaussianBlur! = nil
     var m_library:MTLLibrary! = nil
+    var m_textureLoader:MTKTextureLoader! = nil
     
     init(scene:GameScene) {
         super.init()
@@ -26,6 +27,7 @@ class GameUtility:NSObject {
         m_descriptor = Descriptor()
         m_camera = GameCamera(pos: [30,30,30], center: [0,0,0], up: [0,1,0], scene: scene)
         m_library = m_scene.m_device.newDefaultLibrary()
+        m_textureLoader = MTKTextureLoader(device: m_scene.m_device)
         //m_gaussianBlur = MPSImageGaussianBlur(device: m_scene.m_device, sigma:0.5)
     }
 }

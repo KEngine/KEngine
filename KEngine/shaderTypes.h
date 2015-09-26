@@ -53,6 +53,7 @@ struct Uniform{
 struct Vertex{
     packed_float3 pos;
     packed_float3 normal;
+    //packed_float2 textCoord;
 };
 
 

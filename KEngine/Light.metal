@@ -52,7 +52,7 @@ fragment GBufferOut lightFragment(LightInOut in [[stage_in]],GBufferOut gbuffer,
     float nl = dot(n, l) * rsqrt(n_ls * l_ls);
     float nh = dot(n, h) * rsqrt(n_ls * h_ls);
     float d_atten = sqrt(l_ls);
-    float atten = fmax(1.0 - d_atten / 10, 0.0);
+    float atten = fmax(1.0 - d_atten / 6, 0.0);
     float diffuse = fmax(nl, 0.0) * atten;
     
     float4 light = gbuffer.light;

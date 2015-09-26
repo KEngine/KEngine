@@ -60,8 +60,8 @@ class GameCamera:NSObject,CameraDelegate {
     
     
     func setupLight(){
-        let light1 = GameLight(pos: [100,200,50], color: [1,1,1], shine: 50)
-        let light2 = GameLight(pos: [-3,3,3], color: [0,1,0], shine: 1)
+        let light1 = GameLight(pos: [100,200,50], color: [0.6, 0.5, 0.2], shine: 50)
+        /*let light2 = GameLight(pos: [-3,3,3], color: [0,1,0], shine: 1)
         
         let light3 = GameLight(pos: [7,3,-3], color: [0,0,1], shine: 1)
         
@@ -78,10 +78,10 @@ class GameCamera:NSObject,CameraDelegate {
         
         let light10 = GameLight(pos: [10,1.5,5], color: [0.1,0.5,0.2], shine: 19)
         
-        let ligh11 = GameLight(pos: [-7,3.5,-2], color: [0.3,0.5,0.6], shine: 34)
+        let ligh11 = GameLight(pos: [-7,3.5,-2], color: [0.3,0.5,0.6], shine: 34)*/
         
         
-        m_light = GameLightArrary(lights: [light1,light2,light3,light4,light5,light6,ligh11,light10,light7,light8,light9], scene: m_scene)
+        m_light = GameLightArrary(lights: [light1], scene: m_scene)
         
         
     }
@@ -117,57 +117,28 @@ class GameCamera:NSObject,CameraDelegate {
         return m_shadowProjectionBuffer.buffer()
     }
     
-    func rotate(location:CGPoint){
-        
-        
-        
-        /*if m_lastPanLocation.y < location.y{
-            m_viewMatrix.rotate(0.04, axis: [1,0,-1])
-            //m_viewMatrix.translate(0, y: 0.5, z: 0)
-            m_viewBuffer.updateBuffer(m_viewMatrix.dumpToSwift())
-        }else{
-            m_viewMatrix.rotate(-0.04, axis: [1,0,-1])
-            //m_viewMatrix.translate(0, y: -0.5, z: 0)
-            m_viewBuffer.updateBuffer(m_viewMatrix.dumpToSwift())
-        }
-        m_lastPanLocation = location*/
-        
-        /*if m_lastPanLocation.x < location.x{
-            m_pos[0] -= 1
-        }else{
-            m_pos[0] += 1
-        }*/
-        
-        /*if m_lastPanLocation.y < location.y{
-            m_pos[1] -= 1
-        }else{
-            m_pos[1] += 1
-        }
-        m_viewMatrix.matrixFromLookAt(m_pos, center: [0,0,0], up: [0,1,0])*/
-        //m_viewBuffer.updateBuffer(m_viewMatrix.dumpToSwift())
-        if abs(m_lastPanLocation.x - location.x) > abs(m_lastPanLocation.y - location.y){
-            if m_lastPanLocation.x < location.x{
-                m_pos[0] -= 1
+    
+    func rotate(location: CGPoint) {
+        if m_lastPanLocation != CGPointMake(0, 0){
+            
+            if m_lastPanLocation.x > location.x{
+                m_viewMatrix.rotate(0.05, axis: [0,1,0])
             }else{
-                m_pos[0] += 1
+                m_viewMatrix.rotate(-0.05, axis: [0,1,0])
             }
-            m_viewMatrix.matrixFromLookAt(m_pos, center: [0,0,0], up: [0,1,0])
 
-        }else{
-            if m_lastPanLocation.y < location.y{
-                m_pos[1] -= 1
+            /*if m_lastPanLocation.y < location.y{
+                m_viewMatrix.translate(0, y: 0.3, z: 0)
             }else{
-                m_pos[1] += 1
-            }
-            m_viewMatrix.matrixFromLookAt(m_pos, center: [0,0,0], up: [0,1,0])
+                m_viewMatrix.translate(0, y: -0.3, z: 0)
+            }*/
+            m_viewBuffer.updateBuffer(m_viewMatrix.dumpToSwift())
         }
-        m_viewBuffer.updateBuffer(m_viewMatrix.dumpToSwift())
-
         m_lastPanLocation = location
 
-        
-        
     }
+    
+    
     
     func scale(scale:CGFloat) {
         if m_lastScale > scale{

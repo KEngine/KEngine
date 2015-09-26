@@ -31,6 +31,12 @@
 		1B81C1BC1BB2751300CE6ADD /* GameGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1BB1BB2751300CE6ADD /* GameGrid.swift */; settings = {ASSET_TAGS = (); }; };
 		1B81C1BF1BB39FB400CE6ADD /* Light.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1BE1BB39FB400CE6ADD /* Light.metal */; settings = {ASSET_TAGS = (); }; };
 		1B81C1C11BB3A46200CE6ADD /* GameAreaLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1C01BB3A46200CE6ADD /* GameAreaLight.swift */; settings = {ASSET_TAGS = (); }; };
+		1B81C1C31BB65B7900CE6ADD /* heightmap.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1C21BB65B7800CE6ADD /* heightmap.png */; settings = {ASSET_TAGS = (); }; };
+		1B81C1C61BB65EB700CE6ADD /* RenderToGBufferTerrain.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1C51BB65EB700CE6ADD /* RenderToGBufferTerrain.metal */; settings = {ASSET_TAGS = (); }; };
+		1B81C1C81BB667C800CE6ADD /* GameTextureArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1C71BB667C800CE6ADD /* GameTextureArray.swift */; settings = {ASSET_TAGS = (); }; };
+		1B81C1CA1BB6687100CE6ADD /* grass.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1C91BB6687100CE6ADD /* grass.png */; settings = {ASSET_TAGS = (); }; };
+		1B81C1CC1BB6688000CE6ADD /* ground.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1CB1BB6688000CE6ADD /* ground.png */; settings = {ASSET_TAGS = (); }; };
+		1B81C1D01BB671AC00CE6ADD /* weight.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1CF1BB671AC00CE6ADD /* weight.png */; settings = {ASSET_TAGS = (); }; };
 		1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */; };
 		1BB4DFF31BA5398D00617A22 /* RenderShadowMap.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */; };
 		1BC4521D1B9EC82A000538EF /* GameUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC4521C1B9EC82A000538EF /* GameUtility.swift */; };
@@ -87,6 +93,12 @@
 		1B81C1BB1BB2751300CE6ADD /* GameGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameGrid.swift; sourceTree = "<group>"; };
 		1B81C1BE1BB39FB400CE6ADD /* Light.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Light.metal; sourceTree = "<group>"; };
 		1B81C1C01BB3A46200CE6ADD /* GameAreaLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameAreaLight.swift; sourceTree = "<group>"; };
+		1B81C1C21BB65B7800CE6ADD /* heightmap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heightmap.png; path = ../../KKHGame/KKHGame/heightmap.png; sourceTree = "<group>"; };
+		1B81C1C51BB65EB700CE6ADD /* RenderToGBufferTerrain.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderToGBufferTerrain.metal; sourceTree = "<group>"; };
+		1B81C1C71BB667C800CE6ADD /* GameTextureArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTextureArray.swift; sourceTree = "<group>"; };
+		1B81C1C91BB6687100CE6ADD /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grass.png; path = ../../KKHGame/KKHGame/grass.png; sourceTree = "<group>"; };
+		1B81C1CB1BB6688000CE6ADD /* ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ground.png; path = ../../KKHGame/KKHGame/ground.png; sourceTree = "<group>"; };
+		1B81C1CF1BB671AC00CE6ADD /* weight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weight.png; sourceTree = "<group>"; };
 		1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DefferredShadingComposition.metal; sourceTree = "<group>"; };
 		1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderShadowMap.metal; sourceTree = "<group>"; };
 		1BC4521C1B9EC82A000538EF /* GameUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtility.swift; sourceTree = "<group>"; };
@@ -147,6 +159,7 @@
 				1B21EC711B8F5CE7000A0EC2 /* GameActor */,
 				1B21EC671B8F53DC000A0EC2 /* GameScene */,
 				1B21EC721B8F5E71000A0EC2 /* Math.swift */,
+				1B81C1C41BB65B7F00CE6ADD /* Textures */,
 				1B21EC3D1B8F530D000A0EC2 /* Main.storyboard */,
 				1B21EC401B8F530D000A0EC2 /* Assets.xcassets */,
 				1B21EC421B8F530D000A0EC2 /* LaunchScreen.storyboard */,
@@ -186,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				1B21EC821B92D4C7000A0EC2 /* GameUniformBuffer.swift */,
+				1B81C1C71BB667C800CE6ADD /* GameTextureArray.swift */,
 				1BF9D6551B9D8B030096A2E5 /* GameLight */,
 				1B21EC811B91D68A000A0EC2 /* GameCamera */,
 				1B21EC6D1B8F5809000A0EC2 /* Descriptor.swift */,
@@ -229,6 +243,7 @@
 				1B21EC7D1B91CAF6000A0EC2 /* RenderToScreenShader.metal */,
 				1B21ECAF1B99AE50000A0EC2 /* shaderTypes.h */,
 				1B21ECAC1B99ADFD000A0EC2 /* RenderToGbuffer.metal */,
+				1B81C1C51BB65EB700CE6ADD /* RenderToGBufferTerrain.metal */,
 				1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */,
 				1B81C1BE1BB39FB400CE6ADD /* Light.metal */,
 				1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */,
@@ -244,6 +259,17 @@
 				1B81C1BB1BB2751300CE6ADD /* GameGrid.swift */,
 			);
 			name = GameTerrain;
+			sourceTree = "<group>";
+		};
+		1B81C1C41BB65B7F00CE6ADD /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				1B81C1C21BB65B7800CE6ADD /* heightmap.png */,
+				1B81C1CF1BB671AC00CE6ADD /* weight.png */,
+				1B81C1C91BB6687100CE6ADD /* grass.png */,
+				1B81C1CB1BB6688000CE6ADD /* ground.png */,
+			);
+			name = Textures;
 			sourceTree = "<group>";
 		};
 		1BF9D6551B9D8B030096A2E5 /* GameLight */ = {
@@ -362,9 +388,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B81C1CC1BB6688000CE6ADD /* ground.png in Resources */,
+				1B81C1D01BB671AC00CE6ADD /* weight.png in Resources */,
 				1B21EC441B8F530D000A0EC2 /* LaunchScreen.storyboard in Resources */,
 				1B21EC411B8F530D000A0EC2 /* Assets.xcassets in Resources */,
+				1B81C1CA1BB6687100CE6ADD /* grass.png in Resources */,
 				1B21EC3F1B8F530D000A0EC2 /* Main.storyboard in Resources */,
+				1B81C1C31BB65B7900CE6ADD /* heightmap.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,10 +436,12 @@
 				1BC4521D1B9EC82A000538EF /* GameUtility.swift in Sources */,
 				1B21EC831B92D4C7000A0EC2 /* GameUniformBuffer.swift in Sources */,
 				1B21EC751B8F7356000A0EC2 /* sephere.swift in Sources */,
+				1B81C1C81BB667C800CE6ADD /* GameTextureArray.swift in Sources */,
 				1B81C1C11BB3A46200CE6ADD /* GameAreaLight.swift in Sources */,
 				1B81C1B21BB1003D00CE6ADD /* GameFilter.swift in Sources */,
 				1BB4DFF31BA5398D00617A22 /* RenderShadowMap.metal in Sources */,
 				1B21EC381B8F530D000A0EC2 /* AppDelegate.swift in Sources */,
+				1B81C1C61BB65EB700CE6ADD /* RenderToGBufferTerrain.metal in Sources */,
 				1B21ECA91B9837B2000A0EC2 /* GameDefferedRender.swift in Sources */,
 				1B81C1B81BB19FA200CE6ADD /* GameGaussianFilter.swift in Sources */,
 				1B21EC701B8F5CE3000A0EC2 /* GameActor.swift in Sources */,

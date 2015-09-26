@@ -64,7 +64,7 @@ class GameActor:NSObject,GameRenderDelegate{
     
     
     func renderWithPipelineStates(encoder: MTLRenderCommandEncoder,pipelineState:MTLRenderPipelineState,depthState:MTLDepthStencilState) {
-                encoder.setVertexBuffer(m_asset.vertexBuffer(), offset: 0, atIndex: 0)
+        encoder.setVertexBuffer(m_asset.vertexBuffer(), offset: 0, atIndex: 0)
         encoder.setVertexBuffer(m_modelBuffer.buffer(), offset: 0, atIndex: 2)
         encoder.setRenderPipelineState(pipelineState)
         encoder.setDepthStencilState(depthState)
