@@ -46,10 +46,10 @@ class GameGrid: NSObject {
         }
         if depth == 1{
             let vertexData:[Float] = [
-                m0.x,0,m0.y,0,1,0,//0,0,Float(depth % 4),
-                m1.x,0,m1.y,0,1,0,
-                m2.x,0,m2.y,0,1,0,
-                m3.x,0,m3.y,0,1,0,
+                m0.x,0,m0.y,0,1,0,0,0,//0,0,Float(depth % 4),
+                m1.x,0,m1.y,0,1,0,1,0,
+                m2.x,0,m2.y,0,1,0,1,1,
+                m3.x,0,m3.y,0,1,0,0,1,
             ]
             for ele in vertexData{
                 m_vertex.append(ele)

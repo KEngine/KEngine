@@ -36,13 +36,13 @@ vertex GbufferInOutTerrain gbufferTerrainVertex(const device Vertex* in [[buffer
     //调整坐标，从［－1，1］－> ［0，1］
     float3 pos = float3(in[vid].pos);
     float2 textCoord = (pos.xz / 40.0) * 0.5 + float2(0.5);
-    //float2 textCoord1 = float2(in[vid].textCoord);
+    float2 textCoord1 = float2(in[vid].textCoord);
     //out.textCoord1.x =  4 * (textureCoord.x - 0.25 * (textureCoord.x / 0.25  - trunc(textureCoord.x / 0.25)));
     //out.textCoord1.y =  4 * (textureCoord.y - 0.25 * (textureCoord.y / 0.25  - trunc(textureCoord.y / 0.25)));
-    out.textCoord1.x = fmod(textCoord.x,0.25) * 4;
-    out.textCoord1.y = fmod(textCoord.y,0.25) * 4;
+    //out.textCoord1.x = fmod(textCoord.x,0.25) * 4;
+    //out.textCoord1.y = fmod(textCoord.y,0.25) * 4;
 
-    //out.textCoord1 = textCoord1;
+    out.textCoord1 = textCoord1;
     
     /*if (out.textCoord1.x == 0 && fmod(textCoord.x / 0.25,2) == 1){
         out.textCoord1.x = 1.0;
@@ -50,7 +50,7 @@ vertex GbufferInOutTerrain gbufferTerrainVertex(const device Vertex* in [[buffer
     if (out.textCoord1.y == 0 && fmod(textCoord.y / 0.25,2) == 1){
         out.textCoord1.y = 1.0;
     }*/
-    if(textCoord.x == 0.75 || textCoord.x == 0.25){
+    /*if(textCoord.x == 0.75 || textCoord.x == 0.25){
         out.textCoord1.x = 1.0;
     }
     if(textCoord.y == 0.75 || textCoord.y == 0.25){
@@ -66,9 +66,10 @@ vertex GbufferInOutTerrain gbufferTerrainVertex(const device Vertex* in [[buffer
     //float2 textureCoord1 = textureCoord % float2(0.25,0.25);
     out.textCoord = textCoord;
     //从噪声中获取高度
-    float height = heightMap.sample(defaultSampler,textCoord).r * 3;
+    float height = heightMap.sample(defaultSampler,textCoord).r * 3;*/
 
-    
+    out.textCoord = textCoord;
+
     
     out.pos = camera.matrix * view.matrix * model.matrix * float4(float3(pos.x,pos.y,pos.z),1.0);
     out.normal = view.matrix * model.matrix * float4(float3(in[vid].normal),0.0);
