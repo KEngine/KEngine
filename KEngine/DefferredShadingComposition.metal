@@ -58,7 +58,7 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     
     
     //float shadow = shadowMap.sample_compare(shadow_sampler, shadowcoord.xy/shadowcoord.w ,shadowcoord.z/shadowcoord.w);
-    constexpr sampler s(coord::normalized,filter::linear,address::clamp_to_zero);
+    constexpr sampler s(coord::normalized,filter::linear,address::clamp_to_edge,filter::linear);
     
     float2 moments = shadowMap.sample(s,shadowcoord.xy/shadowcoord.w).xy;
     float p = step(shadowcoord.z,moments.x);
@@ -84,13 +84,13 @@ fragment half4 CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut gBuf
     float3 n = normalize(normal_cam);
     float3 l = normalize(light_cam);
     float n_dot_l = saturate(dot(n,l));
-    diffuse_color += light_color * n_dot_l * gBuffer.color * 1.2 * shadow;
+    diffuse_color += light_color * n_dot_l * gBuffer.color * 1.2 ;
     
     
     float3 e = normalize(light_cam  - vertex_cam);
     float3 r = -l + 2.0 * n_dot_l * n;
     float e_dot_r = saturate(dot(e,r));
-    specluar_color += materialSpecular * light_color * pow(e_dot_r,shine) * shadow;
+    specluar_color += materialSpecular * light_color * pow(e_dot_r,shine);
     //Compute Spot Light
     /*for (int i = 1 ; i < 5; ++i){
         light_cam = (view.matrix * float4(float3(lights[i].pos),1.0)).xyz;

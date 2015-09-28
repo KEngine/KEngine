@@ -35,7 +35,7 @@ vertex GbufferInOutTerrain gbufferTerrainVertex(const device Vertex* in [[buffer
     constexpr sampler defaultSampler(coord::normalized);
     //调整坐标，从［－1，1］－> ［0，1］
     float3 pos = float3(in[vid].pos);
-    float2 textCoord = (pos.xz / 40.0) * 0.5 + float2(0.5);
+    float2 textCoord = (pos.xz / 250.0) * 0.5 + float2(0.5);
     float2 textCoord1 = float2(in[vid].textCoord);
     //out.textCoord1.x =  4 * (textureCoord.x - 0.25 * (textureCoord.x / 0.25  - trunc(textureCoord.x / 0.25)));
     //out.textCoord1.y =  4 * (textureCoord.y - 0.25 * (textureCoord.y / 0.25  - trunc(textureCoord.y / 0.25)));
@@ -81,23 +81,29 @@ vertex GbufferInOutTerrain gbufferTerrainVertex(const device Vertex* in [[buffer
 }
 
 
-fragment GBufferOut gbufferTerrainFragment(GbufferInOutTerrain in [[stage_in]],texture2d_array<float> terrainTexture [[texture(0)]]){
+fragment GBufferOut gbufferTerrainFragment(GbufferInOutTerrain in [[stage_in]],texture2d_array<float> terrainTexture [[texture(0)]],texture2d<float> weightTexture [[texture(1)]]){
     GBufferOut out;
     
     
     constexpr sampler defaultSampler;
-    half4 color0 = half4(terrainTexture.sample(defaultSampler,in.textCoord1,0));
-    half4 color1 = half4(terrainTexture.sample(defaultSampler,in.textCoord1,1));
-    half4 color2 = half4(terrainTexture.sample(defaultSampler,in.textCoord,2));
-    
+    float4 grass1 = float4(terrainTexture.sample(defaultSampler,in.textCoord1,0));
+    float4 grass2 = float4(terrainTexture.sample(defaultSampler,in.textCoord1,1));
+    float4 rock = float4(terrainTexture.sample(defaultSampler,in.textCoord1,2));
+    float4 groud = float4(terrainTexture.sample(defaultSampler,in.textCoord1,3));
+
+    //half4 color2 = half4(terrainTexture.sample(defaultSampler,in.textCoord,2));
+    half4 weight = half4(weightTexture.sample(defaultSampler,in.textCoord));
+
     out.pos = in.posWorld;//color 2
     out.normal = in.normal;//color 1
     out.normal.w = in.linearDepth;
-    //float allWeights = color2.r + color2.g;
-    out.color = float4(color1 * color2.r); //color 0
-    if(color2.r == 0){
-        out.color = float4(color0);
-    }
+       
+    /*if(weight){
+        out.color = float4(grass1);
+    }*/
+    float sum = weight.r + weight.g + weight.b + weight.a;
+    out.color = float4(groud* weight.r/sum + grass1 * weight.g/sum + rock * weight.b /sum + grass2 * weight.a/sum);
+    
     out.light = float4(0,0,0,1);
     return out;
 }

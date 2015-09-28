@@ -52,7 +52,7 @@ class GameCamera:NSObject,CameraDelegate {
         m_projectionBuffer = GameUniformBuffer(data: m_projectionMatrix.dumpToSwift(), scene: scene)
         m_sunViewMatrix.matrixFromLookAt(m_sunPos, center: [0,0,0], up: [0,1,0])
         m_sunViewBuffer = GameUniformBuffer(data: m_sunViewMatrix.dumpToSwift(), scene: scene)
-        m_shadowProjectionMatrix.MatrixMakeFrustum_oc(-1, right: 1, bottom: -Float(scene.view.frame.width / scene.view.frame.height), top: Float(scene.view.frame.width / scene.view.frame.height), near: 50, far: -1000)
+        m_shadowProjectionMatrix.MatrixMakeFrustum_oc(-1, right: 1, bottom: -Float(scene.view.frame.width / scene.view.frame.height), top: Float(scene.view.frame.width / scene.view.frame.height), near: 0.1, far: -100000)
         m_shadowProjectionBuffer = GameUniformBuffer(data: m_shadowProjectionMatrix.dumpToSwift(), scene: m_scene)
         
         
@@ -123,8 +123,13 @@ class GameCamera:NSObject,CameraDelegate {
             
             if m_lastPanLocation.x > location.x{
                 m_viewMatrix.rotate(0.05, axis: [0,1,0])
+                m_sunViewMatrix.rotate(0.05, axis: [0,1,0])
+
+                
             }else{
                 m_viewMatrix.rotate(-0.05, axis: [0,1,0])
+                m_sunViewMatrix.rotate(-0.05, axis: [0,1,0])
+
             }
 
             /*if m_lastPanLocation.y < location.y{
@@ -133,6 +138,7 @@ class GameCamera:NSObject,CameraDelegate {
                 m_viewMatrix.translate(0, y: -0.3, z: 0)
             }*/
             m_viewBuffer.updateBuffer(m_viewMatrix.dumpToSwift())
+            m_sunViewBuffer.updateBuffer(m_sunViewMatrix.dumpToSwift())
         }
         m_lastPanLocation = location
 

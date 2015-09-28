@@ -115,7 +115,7 @@ class GameScene: UIViewController{
         
         //_ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[0,8,0], scene: self)
         //actor5.translate(0, y: -5, z: 0)
-        let terrain = GameTerrainActor(scene: self, m0: [40,-40], m1: [40,40], m2: [-40,40], m3: [-40,-40], depth: 3)
+        let terrain = GameTerrainActor(scene: self, m0: [250,-250], m1: [250,250], m2: [-250,150], m3: [-250,-250], depth: 6)
         terrain.translate(0, y: -10, z: 0)
         m_light = [GameAreaLight]()
         _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-7,1,0], color: [1,0,0], scene: self)

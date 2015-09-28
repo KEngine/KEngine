@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B16D9191BB6EE3900B58E60 /* grass1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B16D9181BB6EE3900B58E60 /* grass1.png */; settings = {ASSET_TAGS = (); }; };
+		1B16D91F1BB78CBE00B58E60 /* grass2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B16D91E1BB78CBE00B58E60 /* grass2.png */; settings = {ASSET_TAGS = (); }; };
+		1B16D9211BB78F5500B58E60 /* rock.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B16D9201BB78F5500B58E60 /* rock.png */; settings = {ASSET_TAGS = (); }; };
+		1B16D9251BB8C4D400B58E60 /* weight.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B16D9241BB8C4D400B58E60 /* weight.png */; settings = {ASSET_TAGS = (); }; };
 		1B21EC381B8F530D000A0EC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B21EC371B8F530D000A0EC2 /* AppDelegate.swift */; };
 		1B21EC3F1B8F530D000A0EC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B21EC3D1B8F530D000A0EC2 /* Main.storyboard */; };
 		1B21EC411B8F530D000A0EC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B21EC401B8F530D000A0EC2 /* Assets.xcassets */; };
@@ -33,9 +37,7 @@
 		1B81C1C31BB65B7900CE6ADD /* heightmap.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1C21BB65B7800CE6ADD /* heightmap.png */; settings = {ASSET_TAGS = (); }; };
 		1B81C1C61BB65EB700CE6ADD /* RenderToGBufferTerrain.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1C51BB65EB700CE6ADD /* RenderToGBufferTerrain.metal */; settings = {ASSET_TAGS = (); }; };
 		1B81C1C81BB667C800CE6ADD /* GameTextureArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1C71BB667C800CE6ADD /* GameTextureArray.swift */; settings = {ASSET_TAGS = (); }; };
-		1B81C1CA1BB6687100CE6ADD /* grass.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1C91BB6687100CE6ADD /* grass.png */; settings = {ASSET_TAGS = (); }; };
 		1B81C1CC1BB6688000CE6ADD /* ground.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1CB1BB6688000CE6ADD /* ground.png */; settings = {ASSET_TAGS = (); }; };
-		1B81C1D01BB671AC00CE6ADD /* weight.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1CF1BB671AC00CE6ADD /* weight.png */; settings = {ASSET_TAGS = (); }; };
 		1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */; };
 		1BB4DFF31BA5398D00617A22 /* RenderShadowMap.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */; };
 		1BC4521D1B9EC82A000538EF /* GameUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC4521C1B9EC82A000538EF /* GameUtility.swift */; };
@@ -61,6 +63,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B16D9181BB6EE3900B58E60 /* grass1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass1.png; sourceTree = "<group>"; };
+		1B16D91E1BB78CBE00B58E60 /* grass2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass2.png; sourceTree = "<group>"; };
+		1B16D9201BB78F5500B58E60 /* rock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rock.png; sourceTree = "<group>"; };
+		1B16D9241BB8C4D400B58E60 /* weight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weight.png; sourceTree = "<group>"; };
 		1B21EC341B8F530D000A0EC2 /* KEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B21EC371B8F530D000A0EC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B21EC3E1B8F530D000A0EC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -94,9 +100,7 @@
 		1B81C1C21BB65B7800CE6ADD /* heightmap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heightmap.png; path = ../../KKHGame/KKHGame/heightmap.png; sourceTree = "<group>"; };
 		1B81C1C51BB65EB700CE6ADD /* RenderToGBufferTerrain.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderToGBufferTerrain.metal; sourceTree = "<group>"; };
 		1B81C1C71BB667C800CE6ADD /* GameTextureArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTextureArray.swift; sourceTree = "<group>"; };
-		1B81C1C91BB6687100CE6ADD /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grass.png; path = ../../KKHGame/KKHGame/grass.png; sourceTree = "<group>"; };
 		1B81C1CB1BB6688000CE6ADD /* ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ground.png; path = ../../KKHGame/KKHGame/ground.png; sourceTree = "<group>"; };
-		1B81C1CF1BB671AC00CE6ADD /* weight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weight.png; sourceTree = "<group>"; };
 		1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DefferredShadingComposition.metal; sourceTree = "<group>"; };
 		1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderShadowMap.metal; sourceTree = "<group>"; };
 		1BC4521C1B9EC82A000538EF /* GameUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtility.swift; sourceTree = "<group>"; };
@@ -262,8 +266,10 @@
 			isa = PBXGroup;
 			children = (
 				1B81C1C21BB65B7800CE6ADD /* heightmap.png */,
-				1B81C1CF1BB671AC00CE6ADD /* weight.png */,
-				1B81C1C91BB6687100CE6ADD /* grass.png */,
+				1B16D9181BB6EE3900B58E60 /* grass1.png */,
+				1B16D9201BB78F5500B58E60 /* rock.png */,
+				1B16D9241BB8C4D400B58E60 /* weight.png */,
+				1B16D91E1BB78CBE00B58E60 /* grass2.png */,
 				1B81C1CB1BB6688000CE6ADD /* ground.png */,
 			);
 			name = Textures;
@@ -385,13 +391,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B16D9191BB6EE3900B58E60 /* grass1.png in Resources */,
+				1B16D9211BB78F5500B58E60 /* rock.png in Resources */,
 				1B81C1CC1BB6688000CE6ADD /* ground.png in Resources */,
-				1B81C1D01BB671AC00CE6ADD /* weight.png in Resources */,
 				1B21EC441B8F530D000A0EC2 /* LaunchScreen.storyboard in Resources */,
 				1B21EC411B8F530D000A0EC2 /* Assets.xcassets in Resources */,
-				1B81C1CA1BB6687100CE6ADD /* grass.png in Resources */,
 				1B21EC3F1B8F530D000A0EC2 /* Main.storyboard in Resources */,
 				1B81C1C31BB65B7900CE6ADD /* heightmap.png in Resources */,
+				1B16D91F1BB78CBE00B58E60 /* grass2.png in Resources */,
+				1B16D9251BB8C4D400B58E60 /* weight.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
