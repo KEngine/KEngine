@@ -60,6 +60,11 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     var m_compositionPipelineState:MTLRenderPipelineState! = nil
     var m_compositionDepthStencilState:MTLDepthStencilState! = nil
     
+    //Pass2 : UI
+    
+    var m_renderUIPipelineState:MTLRenderPipelineState! = nil
+    var m_quardTextCoord:MTLBuffer! = nil
+    
     var m_secondPassDesc:MTLRenderPassDescriptor! = nil
     
     var m_colorattachmentDesc = MTLRenderPassColorAttachmentDescriptor()
@@ -89,6 +94,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         m_screenQuard = GameActorAsset(vertices: screenQuard_vertices, indices: screenQuard_indices, primitiveType: MTLPrimitiveType.Triangle, device: m_scene.m_device)
         m_shadowMapFilter = GameFilter(functionName: "GaussianBlur", soureceTexture: m_shadowMap, targetTexture: m_shadowMapBlur, scene: m_scene)
         m_gaussianBlur = GameGaussianBlur(scene: m_scene)
+        m_quardTextCoord = m_scene.m_device.newBufferWithBytes(quard_textCoord, length: sizeofValue(quard_textCoord[0]) * quard_textCoord.count, options: MTLResourceOptions.CPUCacheModeDefaultCache)
     }
     
         
@@ -96,7 +102,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     func shadowPassDesc()->MTLRenderPassDescriptor{
         let textureDesc = m_scene.m_utility.m_descriptor.m_textureDesc
         textureDesc.textureType = MTLTextureType.Type2D
-        textureDesc.width = Int(1560)
+        textureDesc.width = Int(1024)
         textureDesc.height = Int(1024)
         textureDesc.mipmapLevelCount = 1
         textureDesc.pixelFormat = MTLPixelFormat.RG32Float
@@ -313,7 +319,8 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         
         renderPipelineDesc.vertexFunction = m_library.newFunctionWithName("CompositonVertex")
         renderPipelineDesc.fragmentFunction = m_library.newFunctionWithName("CompositionFragment")
-       
+
+        
     
 
         
@@ -323,6 +330,30 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
             print("(GameDefferedRender.swift setupComposition() function) :\(error.localizedDescription)")
 
         }
+        
+        renderPipelineDesc.vertexFunction = m_library.newFunctionWithName("RenderUIVertex")
+        renderPipelineDesc.fragmentFunction = m_library.newFunctionWithName("RenderUIFragment")
+        
+        renderPipelineDesc.colorAttachments[0].blendingEnabled = true;
+        renderPipelineDesc.colorAttachments[0].rgbBlendOperation = MTLBlendOperation.Add;
+        renderPipelineDesc.colorAttachments[0].alphaBlendOperation = MTLBlendOperation.Add;
+        renderPipelineDesc.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactor.One;
+        renderPipelineDesc.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactor.One;
+        renderPipelineDesc.colorAttachments[0].destinationRGBBlendFactor =
+            MTLBlendFactor.OneMinusSourceAlpha;
+        renderPipelineDesc.colorAttachments[0].destinationAlphaBlendFactor =
+            MTLBlendFactor.OneMinusSourceAlpha;
+        
+        do{
+            m_renderUIPipelineState = try m_scene.m_device.newRenderPipelineStateWithDescriptor(renderPipelineDesc)
+        }catch let error as NSError{
+            print("(GameDefferedRender.swift setupComposition() function) :\(error.localizedDescription)")
+            
+        }
+
+        
+        
+        
         
         
         
@@ -435,10 +466,10 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.shadowProjecitonBuffer(), offset: 0, atIndex: 2)
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.sunViewBuffer(), offset: 0, atIndex: 3)
         encoder.setFragmentTexture(m_shadowMap, atIndex: 0)
-        encoder.setVertexBuffer(m_screenQuard.m_vertexBuffer, offset: 0, atIndex: 0)
+        encoder.setVertexBuffer(m_screenQuard.vertexBuffer(), offset: 0, atIndex: 0)
         encoder.setRenderPipelineState(m_compositionPipelineState)
         encoder.setDepthStencilState(m_compositionDepthStencilState)
-        encoder.drawIndexedPrimitives(m_screenQuard.m_primitiveType, indexCount: m_screenQuard.m_indices.count, indexType: MTLIndexType.UInt16, indexBuffer: m_screenQuard.m_indexBuffer, indexBufferOffset: 0)
+        encoder.drawIndexedPrimitives(m_screenQuard.m_primitiveType, indexCount: m_screenQuard.m_indices.count,indexType: MTLIndexType.UInt16, indexBuffer: m_screenQuard.indexBuffer(), indexBufferOffset: 0)
     }
     
     
@@ -454,8 +485,6 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
 
         for actor in m_scene.m_actor{
             actor.renderWithPipelineStates(encoder, pipelineState: m_geometryPipelineState, depthState: m_geometryDepthStencilState)
-            
-            
         }
     }
     
@@ -468,11 +497,10 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         
         m_secondPassDesc.colorAttachments[1].storeAction = MTLStoreAction.DontCare
         m_secondPassDesc.colorAttachments[1].loadAction = MTLLoadAction.DontCare
-        //m_secondPassDesc.colorAttachments[1].clearColor = MTLClearColorMake(1,1,1,1)
         
         m_secondPassDesc.colorAttachments[2].storeAction = MTLStoreAction.DontCare
         m_secondPassDesc.colorAttachments[2].loadAction = MTLLoadAction.DontCare
-        //m_secondPassDesc.colorAttachments[2].clearColor = MTLClearColorMake(1,1,1,1)
+
         m_secondPassDesc.colorAttachments[3].storeAction = MTLStoreAction.DontCare
         m_secondPassDesc.colorAttachments[3].loadAction = MTLLoadAction.DontCare
 
@@ -481,6 +509,14 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         m_secondPassDesc.depthAttachment.storeAction  = MTLStoreAction.DontCare
         m_secondPassDesc.stencilAttachment.loadAction = MTLLoadAction.DontCare
         m_secondPassDesc.stencilAttachment.storeAction = MTLStoreAction.DontCare
+    }
+    
+    
+    func renderUI(encoder:MTLRenderCommandEncoder){
+        encoder.setVertexBuffer(m_quardTextCoord, offset: 0, atIndex: 1)
+        for ui in m_scene.m_ui{
+            ui.renderUI(encoder)
+        }
     }
 
     
@@ -516,7 +552,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         /*let computeEncoder = commandBuffer.computeCommandEncoder()
         m_shadowMapFilter.applyFilter(computeEncoder)*/
         
-        //m_gaussianBlur.applyGaussian(commandBuffer, source: m_shadowMap, destnation: m_shadowMapBlur)
+        //m_gaussianBlur.applyGaussian(commandBuffer, source: m_shadowMapBlur, destnation: m_shadowMapBlur)
         let encoder = commandBuffer.renderCommandEncoderWithDescriptor(setupSecondPassRenderPassDesc(view.currentDrawable!.texture))
 
         //1.Gbuffer Render
@@ -532,6 +568,10 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         //3.composition Render
         
         renderToScreen(encoder)
+        
+        //4.render UI
+        
+        //renderUI(encoder)
 
         encoder.endEncoding()
         commandBuffer.addCompletedHandler{ [weak self] commandBuffer in
@@ -554,6 +594,13 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
     func mtkView(view: MTKView, drawableSizeWillChange size: CGSize) {
         m_sizeChanged = true
         m_size = size
+        //print(m_size)
+        
+        
+        //UI比例调整
+        for ui in m_scene.m_ui{
+            ui.changeSize(Float(size.height / size.width))
+        }
         m_scene.m_utility.m_camera.changeSize()
     }
 }

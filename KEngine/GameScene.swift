@@ -28,6 +28,7 @@ class GameScene: UIViewController{
     var m_actor:[GameActor]! = nil
     var m_light:[GameAreaLight]! = nil
     var m_cameraDelegate:CameraDelegate! = nil
+    var m_ui = [GameUI]()
     
     
     override func viewDidLoad() {
@@ -99,6 +100,11 @@ class GameScene: UIViewController{
     
     func loadActor(){
         m_actor = [GameActor]()
+        
+        //load ui
+        m_ui.append(GameUI(pos: [0,0,0], width: 0.5, height: 0.5, scene: self))
+        
+        
 
         _ = GameActor(vertices: ball_vertices, indices: ball_indices,pos:[0,0,0], scene: self)
         //actor1.translate(0, y: 0, z: 0)
@@ -111,12 +117,15 @@ class GameScene: UIViewController{
         
         _ = GameActor(vertices: sephere_vertices, indices: sephere_indices,pos:[-5,0,-5], scene: self)
         //actor4.translate(-5, y: 0, z: -5)
+        let sf = GameActor(vertices: sf_vertices, indices: sf_indices, pos: [20,0,20], scene: self)
+        sf.addTexture("sf")
+        sf.scale(0.5)
         
         
-        //_ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[0,8,0], scene: self)
+        _ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[0,8,0], scene: self)
         //actor5.translate(0, y: -5, z: 0)
-        let terrain = GameTerrainActor(scene: self, m0: [250,-250], m1: [250,250], m2: [-250,150], m3: [-250,-250], depth: 6)
-        terrain.translate(0, y: -10, z: 0)
+        //let terrain = GameTerrainActor(scene: self, m0: [250,-250], m1: [250,250], m2: [-250,150], m3: [-250,-250], depth: 6)
+        //terrain.translate(0, y: -10, z: 0)
         m_light = [GameAreaLight]()
         _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-7,1,0], color: [1,0,0], scene: self)
         _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [5,1,0], color: [0,1,0], scene: self)

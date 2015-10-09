@@ -20,18 +20,23 @@ vertex GbufferInOut gbufferVertex(const device Vertex* in [[buffer(0)]],const de
     out.normal = view.matrix * model.matrix * float4(float3(in[vid].normal),0.0);
     out.posWorld = model.matrix * float4(float3(in[vid].pos),1.0);
     out.linearDepth = (view.matrix * model.matrix * float4(float3(in[vid].pos),1.0)).z;
+    out.textCoord = float2(in[vid].textCoord);
     
     return out;
 
 }
 
 
-fragment GBufferOut gbufferFragment(GbufferInOut in [[stage_in]]){
+fragment GBufferOut gbufferFragment(GbufferInOut in [[stage_in]],texture2d<float> actorTexture [[texture(0)]]){
     GBufferOut out;
+    
+    constexpr sampler defaultSampler;
+    float4 color = float4(actorTexture.sample(defaultSampler,in.textCoord));
+    
     out.pos = in.posWorld;//color 2
     out.normal = in.normal;//color 1
     out.normal.w = in.linearDepth;
-    out.color = float4(0.2,0.2,0.2,1.0); //color 0
+    out.color = color; //color 0
     out.light = float4(0,0,0,1);
     return out;
 }
