@@ -60,7 +60,7 @@ class GameCamera:NSObject,CameraDelegate {
     
     
     func setupLight(){
-        let light1 = GameLight(pos: [100,200,50], color: [0.6, 0.5, 0.2], shine: 50)
+        let light1 = GameLight(pos: [100,200,50], color: [1, 1, 1], shine: 50)
         /*let light2 = GameLight(pos: [-3,3,3], color: [0,1,0], shine: 1)
         
         let light3 = GameLight(pos: [7,3,-3], color: [0,0,1], shine: 1)
@@ -89,7 +89,7 @@ class GameCamera:NSObject,CameraDelegate {
     
     func changeSize(){
         //print("changeSize")
-         m_projectionMatrix.MatrixMakeFrustum_oc(-1, right: 1, bottom: -Float(m_scene.view.frame.width / m_scene.view.frame.height), top: Float(m_scene.view.frame.width / m_scene.view.frame.height), near: 1, far: -1000)
+         m_projectionMatrix.MatrixMakeFrustum_oc(-1, right: 1, bottom: -Float(m_scene.view.frame.width / m_scene.view.frame.height), top: Float(m_scene.view.frame.width / m_scene.view.frame.height), near: 0.1, far: -1000)
         m_projectionBuffer.updateBuffer(m_projectionMatrix.dumpToSwift())
         //m_pvMatrix = m_projectionMatrix * m_viewMatrix
        //return m_pvBuffer.updateBuffer(m_pvMatrix.dumpToSwift())
@@ -123,12 +123,12 @@ class GameCamera:NSObject,CameraDelegate {
             
             if m_lastPanLocation.x > location.x{
                 m_viewMatrix.rotate(0.05, axis: [0,1,0])
-                m_sunViewMatrix.rotate(0.05, axis: [0,1,0])
+                //m_sunViewMatrix.rotate(0.05, axis: [0,1,0])
 
                 
             }else{
                 m_viewMatrix.rotate(-0.05, axis: [0,1,0])
-                m_sunViewMatrix.rotate(-0.05, axis: [0,1,0])
+                //m_sunViewMatrix.rotate(-0.05, axis: [0,1,0])
 
             }
 
@@ -138,7 +138,7 @@ class GameCamera:NSObject,CameraDelegate {
                 m_viewMatrix.translate(0, y: -0.3, z: 0)
             }*/
             m_viewBuffer.updateBuffer(m_viewMatrix.dumpToSwift())
-            m_sunViewBuffer.updateBuffer(m_sunViewMatrix.dumpToSwift())
+            //m_sunViewBuffer.updateBuffer(m_sunViewMatrix.dumpToSwift())
         }
         m_lastPanLocation = location
 

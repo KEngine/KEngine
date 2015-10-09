@@ -55,9 +55,9 @@ fragment GBufferOut CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut
     result = result / 25.0;*/
     
     
-    
-    //float shadow = shadowMap.sample_compare(shadow_sampler, shadowcoord.xy/shadowcoord.w ,shadowcoord.z/shadowcoord.w);
     constexpr sampler s(coord::normalized,filter::linear,address::clamp_to_edge,filter::linear);
+
+    //float shadow = shadowMap.sample_compare(s, shadowcoord.xy/shadowcoord.w ,shadowcoord.z/shadowcoord.w);
     
     float2 moments = shadowMap.sample(s,shadowcoord.xy/shadowcoord.w).xy;
     float p = step(shadowcoord.z,moments.x);
@@ -69,7 +69,7 @@ fragment GBufferOut CompositionFragment(DeferredInOut in [[stage_in]],GBufferOut
     //float pMax = clamp((v - 0.4)/(1.0 - v),0.4,1.0);
     
     float shadow = min(1.0,max(p,pMax));
-    
+    //float shadow = step(shadowcoord.z,moments.x);
     
     float4 diffuse_color = float4(0);
     float4 specluar_color = float4(0);

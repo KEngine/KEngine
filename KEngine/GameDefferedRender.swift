@@ -92,7 +92,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         setupLightState()
         setupCompostionState()
         m_screenQuard = GameActorAsset(vertices: screenQuard_vertices, indices: screenQuard_indices, primitiveType: MTLPrimitiveType.Triangle, device: m_scene.m_device)
-        m_shadowMapFilter = GameFilter(functionName: "GaussianBlur", soureceTexture: m_shadowMap, targetTexture: m_shadowMapBlur, scene: m_scene)
+        //m_shadowMapFilter = GameFilter(functionName: "GaussianBlur", soureceTexture: m_shadowMap, targetTexture: m_shadowMapBlur, scene: m_scene)
         m_gaussianBlur = GameGaussianBlur(scene: m_scene)
         m_quardTextCoord = m_scene.m_device.newBufferWithBytes(quard_textCoord, length: sizeofValue(quard_textCoord[0]) * quard_textCoord.count, options: MTLResourceOptions.CPUCacheModeDefaultCache)
     }
@@ -108,6 +108,8 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         textureDesc.pixelFormat = MTLPixelFormat.RG32Float
         m_shadowMap = m_scene.m_device.newTextureWithDescriptor(textureDesc)
         
+        
+    
         m_shadowMapBlur = m_scene.m_device.newTextureWithDescriptor(textureDesc)
         m_shadowPass.colorAttachments[0].texture = m_shadowMap
         m_shadowPass.colorAttachments[0].storeAction = .Store
@@ -157,14 +159,14 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         encoder.setVertexBuffer(m_scene.m_utility.m_camera.shadowProjecitonBuffer(), offset: 0, atIndex: 1)
         encoder.setVertexBuffer(m_scene.m_utility.m_camera.sunViewBuffer(), offset: 0, atIndex: 3)
         //encoder.setDepthBias(0.05, slopeScale: 1.1, clamp: 1)
-        //encoder.setCullMode(.Front)
+        //encoder.setCullMode(.Back)
         for actor in m_scene.m_actor{
             actor.renderToShadowMap(encoder, pipelineState: m_shadowPipelieState,depthState:m_shadowDepthStencilState)
         }
         
-        
-        encoder.endEncoding()
+        //encoder.setCullMode(MTLCullMode.None)
 
+        encoder.endEncoding()
     }
     
     
@@ -465,7 +467,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.viewBuffer(), offset: 0, atIndex: 1)
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.shadowProjecitonBuffer(), offset: 0, atIndex: 2)
         encoder.setFragmentBuffer(m_scene.m_utility.m_camera.sunViewBuffer(), offset: 0, atIndex: 3)
-        encoder.setFragmentTexture(m_shadowMap, atIndex: 0)
+        encoder.setFragmentTexture(m_shadowMapBlur, atIndex: 0)
         encoder.setVertexBuffer(m_screenQuard.vertexBuffer(), offset: 0, atIndex: 0)
         encoder.setRenderPipelineState(m_compositionPipelineState)
         encoder.setDepthStencilState(m_compositionDepthStencilState)
@@ -552,7 +554,7 @@ class GameDefferedRender: NSObject,MTKViewDelegate {
         /*let computeEncoder = commandBuffer.computeCommandEncoder()
         m_shadowMapFilter.applyFilter(computeEncoder)*/
         
-        //m_gaussianBlur.applyGaussian(commandBuffer, source: m_shadowMapBlur, destnation: m_shadowMapBlur)
+        m_gaussianBlur.applyGaussian(commandBuffer, source: m_shadowMap, destnation: m_shadowMapBlur)
         let encoder = commandBuffer.renderCommandEncoderWithDescriptor(setupSecondPassRenderPassDesc(view.currentDrawable!.texture))
 
         //1.Gbuffer Render

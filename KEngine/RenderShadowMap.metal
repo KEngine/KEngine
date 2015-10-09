@@ -20,7 +20,7 @@ struct ShadowOutPut
 
 vertex ShadowOutPut renderShadowMapVertex(const device Vertex* in [[buffer(0)]],const device Uniform& camera [[buffer(1)]],const device Uniform& view [[buffer(3)]],const device Uniform& model [[buffer(2)]],unsigned int vid [[vertex_id]]){
     ShadowOutPut out;
-    out.pos = camera.matrix * view.matrix * model.matrix * float4(float3(in[vid].pos),1.0);
+    out.pos = camera.matrix * view.matrix * model.matrix  * float4(float3(in[vid].pos),1.0);
     return out;
 }
 

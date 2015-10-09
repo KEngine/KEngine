@@ -117,9 +117,17 @@ class GameScene: UIViewController{
         
         _ = GameActor(vertices: sephere_vertices, indices: sephere_indices,pos:[-5,0,-5], scene: self)
         //actor4.translate(-5, y: 0, z: -5)
-        let sf = GameActor(vertices: sf_vertices, indices: sf_indices, pos: [20,0,20], scene: self)
+        //let sf = GameActor(vertices: sf_vertices, indices: sf_indices, pos: [5,3,5], scene: self)
+        
+        let sf = GameActor(filePath: "sf", pos: [3,0,8], scene: self)
         sf.addTexture("sf")
         sf.scale(0.5)
+        
+        
+        /*let entrance = GameActor(filePath: "entrance", pos: [20,0,20], scene: self)
+        entrance.addTexture("entrance_exit")
+        entrance.scale(0.1)*/
+        
         
         
         _ = GameActor(vertices: plat_vertices, indices: plat_indices,pos:[0,8,0], scene: self)
@@ -127,15 +135,17 @@ class GameScene: UIViewController{
         //let terrain = GameTerrainActor(scene: self, m0: [250,-250], m1: [250,250], m2: [-250,150], m3: [-250,-250], depth: 6)
         //terrain.translate(0, y: -10, z: 0)
         m_light = [GameAreaLight]()
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-7,1,0], color: [1,0,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [5,1,0], color: [0,1,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,0,1], color: [1,0,1], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [6,2,-7], color: [1,1,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,1,8], color: [0,1,1], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-8,2,2], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-7,10,0], color: [1,0,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [5,10,0], color: [0,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,7,1], color: [1,0,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [6,12,-7], color: [1,1,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [0,6,8], color: [0,1,1], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-8,5,2], color: [1,0,1], scene: self)
         _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [4.6,3,-2], color: [1,0,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-2,2,-2], color: [0,0,0], scene: self)
-        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [2,5,8], color: [1,0.5,0], scene: self)
+        _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-2,8,-2], color: [0,0,0], scene: self)
+        let actorLight = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [3,0,8], color: [1,0.875,0.75], scene: self)
+        //actorLight.m_modelMatrix.scale(10)
+        //actorLight.m_modelBuffer.updateBuffer(actorLight.m_modelMatrix.dumpToSwift())
         
         /*_ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [-1,2,5], color: [1,0,0], scene: self)
         _ = GameAreaLight(vertex: ball_vertices, index: ball_indices, pos: [2.5,1.0,3], color: [0,1,0], scene: self)

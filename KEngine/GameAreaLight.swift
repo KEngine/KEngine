@@ -20,7 +20,7 @@ class GameAreaLight: NSObject{
     var m_color:[Float]! = nil
     var m_lightInfoBuffer:GameUniformBuffer! = nil
     
-    var m_ball:GameActor! = nil
+    //var m_ball:GameActor! = nil
 
     
     init(vertex:[Float],index:[UInt16],pos:[Float],color:[Float],scene:GameScene) {
@@ -29,12 +29,12 @@ class GameAreaLight: NSObject{
         m_pos = pos
         m_color = color
         m_lightInfoBuffer = GameUniformBuffer(data: [m_pos[0],m_pos[1],m_pos[2],m_color[0],m_color[1],m_color[2]], scene: scene)
+        //m_modelMatrix.scale(5)
 
         m_modelMatrix.translate(pos[0], y: pos[1], z : pos[2])
         m_modelMatrix.scale(10)
-
         m_modelBuffer = GameUniformBuffer(data: m_modelMatrix.dumpToSwift(), scene: scene)
-        m_ball = GameActor(vertices: ball_vertices, indices: ball_indices, pos: m_pos, scene: scene)
+        //m_ball = GameActor(vertices: ball_vertices, indices: ball_indices, pos: m_pos, scene: scene)
         scene.m_light.append(self)
     }
     

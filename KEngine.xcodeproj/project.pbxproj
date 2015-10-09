@@ -38,9 +38,11 @@
 		1B81C1C61BB65EB700CE6ADD /* RenderToGBufferTerrain.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1C51BB65EB700CE6ADD /* RenderToGBufferTerrain.metal */; settings = {ASSET_TAGS = (); }; };
 		1B81C1C81BB667C800CE6ADD /* GameTextureArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81C1C71BB667C800CE6ADD /* GameTextureArray.swift */; settings = {ASSET_TAGS = (); }; };
 		1B81C1CC1BB6688000CE6ADD /* ground.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B81C1CB1BB6688000CE6ADD /* ground.png */; settings = {ASSET_TAGS = (); }; };
-		1B923B841BC75D83003FA29D /* sf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B923B831BC75D83003FA29D /* sf.swift */; settings = {ASSET_TAGS = (); }; };
 		1B923B861BC76541003FA29D /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B923B851BC76541003FA29D /* default.png */; settings = {ASSET_TAGS = (); }; };
 		1B923B881BC76628003FA29D /* sf.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B923B871BC76628003FA29D /* sf.png */; settings = {ASSET_TAGS = (); }; };
+		1B93CBAE1BC77EAF0060BE42 /* sf.json in Resources */ = {isa = PBXBuildFile; fileRef = 1B93CBAD1BC77EAF0060BE42 /* sf.json */; settings = {ASSET_TAGS = (); }; };
+		1B93CBB01BC7A5980060BE42 /* entrance.json in Resources */ = {isa = PBXBuildFile; fileRef = 1B93CBAF1BC7A5980060BE42 /* entrance.json */; settings = {ASSET_TAGS = (); }; };
+		1B93CBB21BC7A5FB0060BE42 /* entrance_exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B93CBB11BC7A5FB0060BE42 /* entrance_exit.png */; settings = {ASSET_TAGS = (); }; };
 		1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */; };
 		1BB4DFF31BA5398D00617A22 /* RenderShadowMap.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */; };
 		1BB759501BC3A37F00E3EE2A /* GameUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB7594F1BC3A37F00E3EE2A /* GameUI.swift */; settings = {ASSET_TAGS = (); }; };
@@ -107,9 +109,11 @@
 		1B81C1C51BB65EB700CE6ADD /* RenderToGBufferTerrain.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderToGBufferTerrain.metal; sourceTree = "<group>"; };
 		1B81C1C71BB667C800CE6ADD /* GameTextureArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTextureArray.swift; sourceTree = "<group>"; };
 		1B81C1CB1BB6688000CE6ADD /* ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ground.png; path = ../../KKHGame/KKHGame/ground.png; sourceTree = "<group>"; };
-		1B923B831BC75D83003FA29D /* sf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sf.swift; sourceTree = "<group>"; };
 		1B923B851BC76541003FA29D /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		1B923B871BC76628003FA29D /* sf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sf.png; sourceTree = "<group>"; };
+		1B93CBAD1BC77EAF0060BE42 /* sf.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sf.json; sourceTree = "<group>"; };
+		1B93CBAF1BC7A5980060BE42 /* entrance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = entrance.json; sourceTree = "<group>"; };
+		1B93CBB11BC7A5FB0060BE42 /* entrance_exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = entrance_exit.png; sourceTree = "<group>"; };
 		1BB002F01B9AB9B40047BE50 /* DefferredShadingComposition.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DefferredShadingComposition.metal; sourceTree = "<group>"; };
 		1BB4DFF21BA5398D00617A22 /* RenderShadowMap.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RenderShadowMap.metal; sourceTree = "<group>"; };
 		1BB7594F1BC3A37F00E3EE2A /* GameUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUI.swift; sourceTree = "<group>"; };
@@ -229,7 +233,8 @@
 				1B81C1BD1BB2752100CE6ADD /* GameTerrain */,
 				1B21EC761B8F7493000A0EC2 /* GameActorAsset.swift */,
 				1B21EC741B8F7356000A0EC2 /* sephere.swift */,
-				1B923B831BC75D83003FA29D /* sf.swift */,
+				1B93CBAF1BC7A5980060BE42 /* entrance.json */,
+				1B93CBAD1BC77EAF0060BE42 /* sf.json */,
 			);
 			name = GameActor;
 			sourceTree = "<group>";
@@ -286,6 +291,7 @@
 				1B16D9241BB8C4D400B58E60 /* weight.png */,
 				1B16D91E1BB78CBE00B58E60 /* grass2.png */,
 				1B923B851BC76541003FA29D /* default.png */,
+				1B93CBB11BC7A5FB0060BE42 /* entrance_exit.png */,
 				1B923B871BC76628003FA29D /* sf.png */,
 				1BB759581BC405CE00E3EE2A /* ak.png */,
 				1B81C1CB1BB6688000CE6ADD /* ground.png */,
@@ -419,12 +425,15 @@
 			files = (
 				1B16D9191BB6EE3900B58E60 /* grass1.png in Resources */,
 				1B16D9211BB78F5500B58E60 /* rock.png in Resources */,
+				1B93CBB01BC7A5980060BE42 /* entrance.json in Resources */,
 				1B923B881BC76628003FA29D /* sf.png in Resources */,
 				1B81C1CC1BB6688000CE6ADD /* ground.png in Resources */,
 				1B21EC441B8F530D000A0EC2 /* LaunchScreen.storyboard in Resources */,
 				1B923B861BC76541003FA29D /* default.png in Resources */,
 				1B21EC411B8F530D000A0EC2 /* Assets.xcassets in Resources */,
+				1B93CBB21BC7A5FB0060BE42 /* entrance_exit.png in Resources */,
 				1BB759591BC405CE00E3EE2A /* ak.png in Resources */,
+				1B93CBAE1BC77EAF0060BE42 /* sf.json in Resources */,
 				1B21EC3F1B8F530D000A0EC2 /* Main.storyboard in Resources */,
 				1B81C1C31BB65B7900CE6ADD /* heightmap.png in Resources */,
 				1B16D91F1BB78CBE00B58E60 /* grass2.png in Resources */,
@@ -453,7 +462,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B923B841BC75D83003FA29D /* sf.swift in Sources */,
 				1BF9D6571B9D8B2F0096A2E5 /* GameLightArray.swift in Sources */,
 				1B81C1BC1BB2751300CE6ADD /* GameGrid.swift in Sources */,
 				1BB002F11B9AB9B40047BE50 /* DefferredShadingComposition.metal in Sources */,

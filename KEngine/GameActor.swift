@@ -42,6 +42,42 @@ class GameActor:NSObject,GameRenderDelegate{
         m_modelBuffer.updateBuffer(m_modelMatrix.dumpToSwift())
     }
     
+    
+    init(filePath:String,pos:[Float],scene:GameScene){
+        super.init()
+        let meshData = NSData(contentsOfURL: NSBundle.mainBundle().URLForResource(filePath, withExtension: "json")!)
+        //var error = NSErrorPointer()
+        var jsonDict:NSDictionary
+        do{
+             jsonDict = try NSJSONSerialization.JSONObjectWithData(meshData!, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
+        }catch let error as NSError{
+            fatalError(error.localizedDescription)
+        }
+        
+        let vertices = jsonDict.objectForKey("vertex") as? [Float]
+        var vertexIndices = jsonDict.objectForKey("index") as? [Float]
+        var indices = [UInt16]()
+        for var i = 0 ; i < vertexIndices!.count ; ++i{
+            indices.append(UInt16(vertexIndices![i]))
+        }
+        
+        
+        m_scene = scene
+        m_asset = GameActorAsset(vertices: vertices!, indices: indices,primitiveType:MTLPrimitiveType.Triangle,device:m_scene.m_device)
+        m_modelMatrix.translate(pos[0], y: pos[1], z: pos[2])
+        m_modelBuffer = GameUniformBuffer(data: m_modelMatrix.dumpToSwift(), scene: scene)
+        
+        do{
+            m_texture = try m_scene.m_utility.m_textureLoader.newTextureWithContentsOfURL(NSBundle.mainBundle().URLForResource("default", withExtension:"png")!, options: nil)
+        }catch let error as NSError{
+            fatalError("Game Actor Texture Error:\(error.localizedDescription)")
+        }
+
+        m_scene.m_actor.append(self)
+
+        
+    }
+    
     func scale(scale:Float){
         m_modelMatrix.scale(scale)
         updateModel()
